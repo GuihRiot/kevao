@@ -478,12 +478,15 @@ function grid(box,onTap){box.replaceChildren(...list(cat).map(([n,p])=>{const q=
 /* ---------- caixa ---------- */
 const SECS=["Lanches","Bebidas","Porções","Adicionais","Combos"];
 const itemsOf=k=>k==="Adicionais"?ADIC.map(([n,p])=>["+ "+n,p]):list(k);
-function goSec(k){const A=act(),d=A.indexOf(k)-A.indexOf(cat);cat=k;drawCaixa();slide(d>0?1:d<0?-1:0);}
+/* ao trocar de categoria, volta a tela para o começo dos itens (as abas continuam fixas no topo) */
+function topoItens(){const m=$("menuArea");if(!m)return;const hh=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--hh"))||104;
+  const y=Math.max(0,m.getBoundingClientRect().top+scrollY-hh);if(scrollY>y+4)scrollTo({top:y,behavior:"smooth"});}
+function goSec(k){const A=act(),d=A.indexOf(k)-A.indexOf(cat);cat=k;drawCaixa();slide(d>0?1:d<0?-1:0);topoItens();}
 const EZ="cubic-bezier(.22,.61,.36,1)";let busy=false;
 function canGo(dir){const A=act(),j=A.indexOf(cat)+dir;return j>=0&&j<A.length;}
 function setX(x,ms){const g=$("grid"),w=$("menuArea").clientWidth||360;g.style.animation="none";g.style.transition=ms?"transform "+ms+"ms "+EZ+",opacity "+ms+"ms ease":"none";g.style.transform=x?"translateX("+x+"px)":"";g.style.opacity=x?String(Math.max(.3,1-Math.abs(x)/(w*1.1))):"";}
 function chipCenter(){const b=[...$("chips").children].find(x=>x.className==="on");if(b)b.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});}
-function swipe(dir){if(busy)return;if(!canGo(dir)){setX(0,260);return;}busy=true;const w=$("menuArea").clientWidth||360;setX(-dir*w*0.9,280);setTimeout(()=>{const A=act();cat=A[A.indexOf(cat)+dir];drawCaixa();slideIn(dir);},280);}
+function swipe(dir){if(busy)return;if(!canGo(dir)){setX(0,260);return;}busy=true;const w=$("menuArea").clientWidth||360;setX(-dir*w*0.9,280);setTimeout(()=>{const A=act();cat=A[A.indexOf(cat)+dir];drawCaixa();slideIn(dir);topoItens();},280);}
 function slideIn(dir){const w=$("menuArea").clientWidth||360;setX(dir*w*0.45,0);requestAnimationFrame(()=>requestAnimationFrame(()=>{setX(0,420);setTimeout(()=>{busy=false;$("grid").style.transition="";},440);}));chipCenter();}
 function slide(dir){if(dir)slideIn(dir);else chipCenter();}
 $("cartBtn").onclick=()=>$("pedidoCard").scrollIntoView({behavior:"smooth",block:"start"});
