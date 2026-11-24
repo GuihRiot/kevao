@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F1B18">
+<title>KEVÃO Hamburgueria · Faça seu pedido</title>
+<link rel="icon" type="image/png" href="/pedido-favicon.png">
+<link rel="apple-touch-icon" href="/pedido-apple-touch-icon.png">
+<link rel="manifest" href="/pedido-manifest.json">
+<meta name="apple-mobile-web-app-title" content="Kevão Delivery">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4EEE3;--card:#EBE0CE;--tx:#1F1B18;--mut:#6E6257;--bd:#D9CBB3;--ac:#AB492B;--onac:#F4EEE3;--dk:#1F1B18;--areia:#D6C3A1;--ok:#3C7A46;--wr:#B23A26}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 Inter,-apple-system,"Helvetica Neue",Arial,sans-serif;padding-bottom:110px}
+button,input,select,textarea{font:inherit;color:inherit}
+header{background:var(--dk);color:var(--onac);text-align:center;padding:18px 16px 22px;position:relative;border-bottom:3px solid var(--ac)}
+body::after{content:"";display:block;height:200px;margin-bottom:-110px;background:url(/grelha.jpg) center 70%/cover no-repeat;-webkit-mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.75) 40%,transparent 100%);mask-image:linear-gradient(to top,#000 0%,rgba(0,0,0,.75) 40%,transparent 100%);pointer-events:none}
+header img{height:92px;width:auto;display:block;margin:0 auto 6px}
+header .sub{font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--areia)}
+.modo{display:inline-block;margin-top:10px;background:var(--ac);color:var(--onac);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:13px;border-radius:999px;padding:6px 14px}
+main{max-width:640px;margin:0 auto;padding:0 16px}
+.chips{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;gap:8px;overflow-x:auto;padding:12px 0 10px;margin:0 -16px;padding-left:16px;padding-right:16px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;border:1px solid var(--bd);background:var(--card);border-radius:999px;padding:9px 16px;font-weight:700;cursor:pointer}
+.chips button{transition:background-color .3s ease,color .3s ease,border-color .3s ease}
+.chips button.on{background:var(--dk);color:var(--onac);border-color:var(--dk)}
+.sec{scroll-margin-top:64px}
+.sec+.sec h2{margin-top:26px}
+@keyframes kvIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes kvFade{from{opacity:0}to{opacity:1}}
+@keyframes kvUp{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.kvIn{animation:kvIn .35s cubic-bezier(.22,.61,.36,1)}
+@keyframes kvSL{from{opacity:0;transform:translateX(48px)}to{opacity:1;transform:none}}@keyframes kvSR{from{opacity:0;transform:translateX(-48px)}to{opacity:1;transform:none}}
+.kvSL{animation:kvSL .3s cubic-bezier(.22,.61,.36,1)}.kvSR{animation:kvSR .3s cubic-bezier(.22,.61,.36,1)}
+.ov{animation:kvFade .22s ease}.ov .sheet{animation:kvUp .32s cubic-bezier(.22,.61,.36,1)}
+@media (prefers-reduced-motion:reduce){.kvIn,.ov,.ov .sheet,.pg,.pg.sai{animation:none}}
+h2{font-size:22px;margin:18px 0 8px;letter-spacing:-.01em}
+.it{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:0 0 10px;width:100%;text-align:left;cursor:pointer}
+.it .tx{flex:1;min-width:0}
+.it b{display:block;font-size:17px}
+.it .ds{color:var(--mut);font-size:14px;margin-top:2px}
+.it .pr{font-weight:800;margin-top:6px}
+.it .pr small{font-weight:600;color:var(--mut);margin-left:6px}
+.it .add{flex:none;width:40px;height:40px;border-radius:50%;background:var(--ac);color:var(--onac);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700}
+.it .qt{flex:none;min-width:40px;height:40px;border-radius:999px;background:var(--dk);color:var(--onac);display:flex;align-items:center;justify-content:center;font-weight:800;padding:0 10px}
+.mut{color:var(--mut)}
+.sg{display:flex;justify-content:space-between;align-items:baseline;margin:18px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--bd);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.sg:first-of-type{margin-top:4px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,var(--bg) 30%)}
+.btn{display:block;width:100%;max-width:608px;margin:0 auto;border:0;border-radius:12px;background:var(--ac);color:var(--onac);font-weight:800;font-size:17px;padding:17px 18px;cursor:pointer;letter-spacing:.02em;text-align:center;text-decoration:none}
+.btn:disabled{opacity:.55}
+.btn.sec{background:transparent;color:var(--tx);border:1.5px solid var(--tx)}
+.bar .btn{display:flex;justify-content:space-between;box-shadow:0 6px 20px rgba(31,27,24,.25)}
+/* folha de opções */
+.pg{position:fixed;inset:0;z-index:30;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;animation:kvPg .28s cubic-bezier(.22,.61,.36,1)}
+.pg.sai{animation:kvPgOut .22s ease-in forwards}
+@keyframes kvPg{from{transform:translateX(100%)}to{transform:none}}@keyframes kvPgOut{to{transform:translateX(100%)}}
+.pgTop{position:sticky;top:0;z-index:2;background:var(--dk);color:var(--onac);display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:3px solid var(--ac)}
+.pgTop button{background:none;border:0;color:var(--onac);font-size:17px;font-weight:800;padding:10px 8px;cursor:pointer}
+.pgNome{font-weight:700;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pgIn{max-width:640px;margin:0 auto;padding:18px 16px 150px}
+.pgIn h1{font-size:28px;margin:0 0 6px;letter-spacing:-.01em}
+.pr1{font-size:20px;font-weight:800;margin:6px 0 4px}
+.passo{margin:24px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.passo b{font-size:19px}
+.tag{flex:none;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:5px 9px;border-radius:999px;background:var(--dk);color:var(--onac)}
+.tag.op{background:transparent;color:var(--mut);border:1px solid var(--bd)}
+.esc{display:flex;align-items:center;gap:12px;width:100%;padding:15px 14px;margin:8px 0;border:2px solid var(--bd);border-radius:12px;background:var(--card);text-align:left;cursor:pointer;font:inherit;color:inherit;transition:border-color .2s,background-color .2s}
+.esc.on{border-color:var(--ac);background:#F5E2D6}
+.esc .rd{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--mut);position:relative;background:#fff}
+.esc.on .rd{border-color:var(--ac)}.esc.on .rd::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--ac)}
+.esc.ck .rd{border-radius:7px}.esc.ck.on .rd{background:var(--ac)}.esc.ck.on .rd::after{inset:0;background:none;content:"✓";color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:17px}
+.esc .tx{flex:1;display:flex;flex-direction:column}.esc .tx b{font-size:17px}.esc .tx small{color:var(--mut);font-size:14px;margin-top:2px}
+.esc em{font-style:normal;font-weight:800;white-space:nowrap}
+.obs{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.ob{border:1.5px solid var(--bd);background:var(--card);border-radius:999px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}
+.ob.on{background:var(--dk);color:var(--onac);border-color:var(--dk)}
+.pgBar{position:fixed;left:0;right:0;bottom:0;z-index:3;background:var(--bg);border-top:1px solid var(--bd);padding:12px 16px calc(12px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px;box-shadow:0 -6px 18px rgba(31,27,24,.08)}
+.pgBar .qty{margin:0;gap:10px}.pgBar .btn.add{flex:1;margin:0}
+.stp{flex:none;display:flex;align-items:center;gap:10px;background:var(--dk);color:var(--onac);border-radius:999px;padding:4px}
+.stp .sb{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;background:var(--ac);cursor:pointer;user-select:none}
+.stp b{min-width:18px;text-align:center}
+.ov{position:fixed;inset:0;z-index:30;background:rgba(31,27,24,.55);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--bg);width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:20px 16px calc(16px + env(safe-area-inset-bottom))}
+.sheet h3{font-size:22px;margin:0 0 4px}
+.opt{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--bd);border-radius:10px;margin:8px 0;background:var(--card);cursor:pointer}
+.opt input{width:22px;height:22px;accent-color:var(--ac);margin:0}
+.opt span{flex:1}
+.opt em{font-style:normal;font-weight:700}
+.lbl{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin:16px 0 4px}
+.qty{display:flex;align-items:center;gap:14px;margin:12px 0}
+.qty button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--tx);background:none;font-size:22px;font-weight:700;cursor:pointer}
+.qty b{font-size:20px;min-width:24px;text-align:center}
+input[type=text],input[type=tel],select,textarea{width:100%;border:1px solid var(--bd);background:#fff;border-radius:10px;padding:13px 12px;font-size:16px;margin:4px 0}
+textarea{resize:vertical;min-height:70px}
+.nocut{font-size:13px;font-weight:700;color:var(--ac);margin-top:4px}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--bd)}
+.row .n{flex:1}
+.row .q{display:flex;align-items:center;gap:8px}
+.row .q button{width:32px;height:32px;border-radius:50%;border:1px solid var(--tx);background:none;font-weight:700;cursor:pointer}
+.tot{display:flex;justify-content:space-between;font-weight:800;font-size:20px;margin:14px 0 4px}
+.sum{display:flex;justify-content:space-between;color:var(--mut);margin:4px 0}
+.pgs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.pgs button{border:1.5px solid var(--bd);background:var(--card);border-radius:10px;padding:14px 8px;font-weight:700;cursor:pointer}
+.pgs button.on{border-color:var(--ac);background:var(--ac);color:var(--onac)}
+.err{background:#F6DCD3;color:var(--wr);font-weight:700;border-radius:10px;padding:12px;margin:12px 0}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin:16px 0}
+.stt{font-size:24px;font-weight:800;margin:4px 0 6px;letter-spacing:-.01em}
+.steps{display:flex;gap:6px;margin:14px 0}
+.steps i{flex:1;height:6px;border-radius:3px;background:var(--bd)}
+.steps i.on{background:var(--ac)}
+.pix{display:flex;gap:8px;align-items:center;background:#fff;border:1px dashed var(--ac);border-radius:10px;padding:10px 12px;margin-top:8px;word-break:break-all}
+.pix code{flex:1;font-size:15px;font-weight:700}
+.pix button{flex:none;border:0;background:var(--dk);color:var(--onac);border-radius:8px;padding:8px 12px;font-weight:700;cursor:pointer}
+.back{background:none;border:0;font-weight:700;padding:14px 0 4px;cursor:pointer;color:var(--ac)}
+.fechado{text-align:center;padding:30px 10px}
+.aviso{border:1.5px dashed var(--ac);border-radius:12px;padding:12px 14px;margin:14px 0 0;font-size:15px}
+.aviso button{margin-top:8px;border:1.5px solid var(--tx);background:none;border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer}
+@keyframes kvPronto{0%,100%{background:var(--card)}50%{background:#CDE8C9}}
+.card.pronto{border:2px solid var(--ok);animation:kvPronto 1s ease-in-out 6}
+.privado{font-size:13px;color:var(--mut);margin:4px 0 0}
+.selos{display:flex;gap:6px;margin:4px 0 6px;flex-wrap:wrap}
+.selos i{width:22px;height:22px;border-radius:50%;border:2px solid #8C7B66;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:900}
+.selos i.on{background:var(--ac);border-color:var(--ac);color:var(--onac)}
+.selos i.g{border-style:dashed;border-color:#E9DFCF;color:#E9DFCF;width:auto;padding:0 6px;border-radius:999px}
+.eta{background:#F5E2D6;border-radius:10px;padding:10px 12px;margin:10px 0 0;font-weight:800;font-size:17px}
+.eta small{display:block;font-weight:500;font-size:13px;color:var(--mut);margin-top:2px}
+.estrelas{display:flex;gap:6px;margin:8px 0}
+.estrelas button{font-size:34px;line-height:1;background:none;border:0;color:#CDBFA6;cursor:pointer;padding:0 2px}
+.estrelas button.on{color:#E0A325}
+.inst{display:flex;align-items:center;gap:12px;width:100%;margin:18px 0 0;padding:14px;border:1.5px solid var(--bd);border-radius:14px;background:var(--card);font:inherit;color:inherit;text-align:left;cursor:pointer}
+.inst img{width:44px;height:44px;border-radius:10px;flex:none}
+.inst b{display:block}
+.passos{margin:6px 0 4px;padding:0;list-style:none;counter-reset:p}
+.passos li{counter-increment:p;display:flex;gap:10px;align-items:flex-start;margin:10px 0;font-size:16px}
+.passos li:before{content:counter(p);flex:none;width:26px;height:26px;border-radius:50%;background:var(--ac);color:var(--onac);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
+.ico{display:inline-flex;vertical-align:middle;background:#fff;border:1px solid var(--bd);border-radius:6px;padding:2px 5px;margin:0 2px}
+.topRow{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 10px;margin:0 -2px;scrollbar-width:none}
+.topRow::-webkit-scrollbar{display:none}
+.topC{flex:0 0 72%;max-width:260px;scroll-snap-align:start;text-align:left;border:1px solid var(--bd);background:var(--card);border-radius:14px;padding:14px;position:relative;cursor:pointer;font:inherit;color:inherit}
+.topC .rk{position:absolute;top:10px;right:12px;font-weight:900;font-size:26px;color:var(--ac);letter-spacing:-.02em}
+.topC b{display:block;font-size:17px;margin:0 34px 4px 0}
+.topC .ds{font-size:13px;color:var(--mut);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
+.topC .pr{font-weight:800;margin-top:8px}
+.oi{background:var(--dk);color:var(--onac);border-radius:14px;padding:16px;margin:14px 0 4px}
+.oi b{font-size:19px;display:block;margin-bottom:4px}
+.oi p{margin:0 0 10px;color:#E9DFCF;font-size:15px}
+.comanda{margin:12px 0 4px;padding:10px;border:2px solid var(--ac);border-radius:12px;text-align:center;font-size:44px;font-weight:800;line-height:1.1}.comanda small{display:block;font-size:12px;letter-spacing:.12em;color:var(--mut)}
+.oi .btn{margin:0;background:var(--ac);color:var(--onac)}
+.oi .btn.sec2{background:transparent;border:1.5px solid #E9DFCF;color:var(--onac)}
+.oi .sair{background:none;border:0;color:#BFAF95;font-size:13px;text-decoration:underline;margin-top:8px;padding:0;cursor:pointer}
+.niver{background:#F5E2D6;border:1.5px solid var(--ac);border-radius:14px;padding:14px 16px;margin:12px 0 4px}
+.niver b{display:block;font-size:18px;margin-bottom:2px}
+.clube{border:1.5px solid var(--bd);border-radius:14px;padding:14px;margin:16px 0 4px;background:var(--card)}
+.clube label.ck{display:flex;gap:10px;align-items:flex-start;font-weight:700;cursor:pointer}
+.clube label.ck input{width:22px;height:22px;flex:none;margin:1px 0 0}
+.clube .nasc{display:flex;gap:8px}
+.clube .nasc select{flex:1;padding:12px;border:1px solid var(--bd);border-radius:10px;background:#fff;font:inherit}
+.ajuda{display:block;margin:22px auto 6px;background:none;border:0;color:var(--mut);text-decoration:underline;font:inherit;font-size:14px;cursor:pointer}
+.ov{position:fixed;inset:0;background:rgba(31,27,24,.5);z-index:60;display:flex;align-items:flex-end;justify-content:center}
+.ov .sh{background:var(--bg);width:100%;max-width:560px;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+.ov textarea{width:100%;min-height:96px;border:1px solid var(--bd);border-radius:10px;padding:10px;font:inherit;box-sizing:border-box}
+.fechado .btn{margin-top:10px}
+.esp{border:1.5px solid var(--ac);border-radius:14px;padding:16px;margin:16px 0 4px;background:#F5E2D6}
+.esp b{display:block;font-size:19px;margin-bottom:4px}
+.esp p{margin:0 0 6px}
+.esp small{color:var(--mut);font-size:13px}
+.fechado h2{margin-bottom:6px}
+.load{text-align:center;padding:40px 0;color:var(--mut)}
+[hidden]{display:none!important}
+</style></head>
+<body>
+<header><img src="/logo.png" alt="KEVÃO Hamburgueria"><div class="sub">Faça seu pedido</div><div id="modo" class="modo" hidden></div></header>
+<main id="app"><div class="load">Carregando o cardápio…</div></main>
+<div class="bar" id="bar" hidden><button class="btn" id="barBtn"></button></div>
+
+<script>
+const SB="https://rahgwjqdghchkkpydjrh.supabase.co",KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhaGd3anFkZ2hjaGtrcHlkanJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5MjM3MzAsImV4cCI6MjEwOTQ5OTczMH0.Mqmjjah5Jf2G8-c338EOUSv7bcgdJH030xrAMuDszFI";
+const WA="5543996033889";
+async function rpc(fn,body){
+  let r;try{r=await fetch(SB+"/rest/v1/rpc/"+fn,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify(body||{})});}catch(e){try{KT.ev("sem_rede",{fn});}catch(_){}throw Object.assign(new Error("REDE"),{code:"REDE"});}
+  const t=await r.text();let j=null;try{j=t?JSON.parse(t):null;}catch(e){}
+  if(!r.ok){const e=new Error((j&&j.message)||"REDE");e.code=(j&&j.message)||"REDE";throw e;}
+  return j;
+}
+/* ===== coleta anônima de erros e comportamento (sem dados pessoais) ===== */
+const T0=Date.now();
+const KT=(()=>{let s="";try{s=sessionStorage.getItem("kv_s")||"";}catch(e){}
+  if(!/^[a-z0-9]{8,32}$/.test(s)){s=(Math.random().toString(36).slice(2,10)+Date.now().toString(36)).replace(/[^a-z0-9]/g,"").slice(0,24);try{sessionStorage.setItem("kv_s",s);}catch(e){}}
+  let fila=[];const modo=()=>{try{return MODO;}catch(e){return "";}};
+  function ev(t,d){if(fila.length<80)fila.push(d?{t,d}:{t});}
+  function flush(keep){if(!fila.length)return;const corpo=JSON.stringify({p:{s,m:modo(),ev:fila.splice(0,40)}});
+    try{fetch(SB+"/rest/v1/rpc/site_evento",{method:"POST",keepalive:!!keep,headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:corpo}).catch(()=>{});}catch(e){}}
+  setInterval(()=>flush(),15000);
+  addEventListener("error",e=>{if(!e.message)return;ev("js_erro",{m:String(e.message).slice(0,200),l:String(e.filename||"").split("/").pop()+":"+(e.lineno||0)});});
+  addEventListener("unhandledrejection",e=>{const r=e.reason;if(r&&r.code)return;ev("js_erro",{m:String(r&&r.message||r||"promessa").slice(0,200),l:"promise"});});
+  return {ev,flush};})();
+const $=id=>document.getElementById(id);
+function el(t,p,...k){const e=document.createElement(t);for(const a in p||{}){if(a==="class")e.className=p[a];else if(a.startsWith("on")||a==="value"||a==="checked"||a==="disabled")e[a]=p[a];else e.setAttribute(a,p[a]);}k.flat().forEach(c=>{if(c!==null&&c!==undefined&&c!=="")e.append(c);});return e;}
+const brl=n=>(+n||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const ls={get(k){try{return JSON.parse(localStorage.getItem(k)||"null");}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}},del(k){try{localStorage.removeItem(k);}catch(e){}}};
+
+const CLASS="Pão, hambúrguer artesanal de 120 g na brasa, salsicha Perdigão, presunto, queijo e molhos.";
+const DESC={
+ "Tropicália":"Pão, pernil desfiado, catupiry, queijo, batata palha e abacaxi.",
+ "Kevão Burger":"Pão brioche, carne de 150 g, queijo cheddar, cebola roxa e molho especial.",
+ "Kevão Fit":"Pão brioche, carne de 150 g, cheddar, alface americana, tomate, cebola roxa e molho especial.",
+ "Kevão Bacon":"Pão brioche, carne de 150 g, cheddar, bacon, barbecue, cebola roxa e molho especial.",
+ "Kevão Acebolado":"Pão brioche, carne de 150 g, cheddar, cebola caramelizada, cebola crispy, bacon e barbecue.",
+ "Kevão Exagerado":"Pão brioche, 2 carnes de 150 g, cheddar, bacon em exagero, barbecue, cebola roxa e molho especial.",
+ "X-Burguer":CLASS,"X-Salada":CLASS,"X-Frango":CLASS,"X-Calabresa":CLASS,"X-Bacon":CLASS,
+ "Combo Casal Bacon":"Para dois. Vem com 2 latas: você escolhe Coca ou Sprite, normal ou zero.","Combo Casal Salada":"Para dois. Vem com 2 latas: você escolhe Coca ou Sprite, normal ou zero.","Combo Casal Misto":"Para dois. Vem com 2 latas: você escolhe Coca ou Sprite, normal ou zero.",
+ "Combo Família Bacon":"Vem com 1 Coca de 1 litro: normal ou zero.","Combo Família Salada":"Vem com 1 Coca de 1 litro: normal ou zero.","Combo Família Misto":"Vem com 1 Coca de 1 litro: normal ou zero."
+};
+const ORDEM=["Tropicália","Kevão Burger","Kevão Fit","Kevão Bacon","Kevão Acebolado","Kevão Exagerado","X-Burguer","X-Salada","X-Frango","X-Calabresa","X-Bacon","Combo Casal Bacon","Combo Casal Salada","Combo Casal Misto","Combo Família Bacon","Combo Família Salada","Combo Família Misto","Batata","Batata com Cheddar e Bacon","Coca-Cola Lata","Coca Zero Lata","Sprite Lata","Sprite Zero Lata","Coca-Cola 1L","Coca Zero 1L","Água sem gás","Água com gás","Suco 330ml","Suco 1 Litro"];
+const pos=n=>{const i=ORDEM.indexOf(n);return i<0?999:i;};
+const NOCUT=new Set(["Tropicália","Kevão Exagerado"]);
+const CATS=["Lanches","Combos","Porções","Bebidas"];
+const ERR={CLUBEFONE:"Para entrar no Clube Kevão, digite seu WhatsApp com DDD.",FECHADO:"A loja não está recebendo pedidos agora.",NOME:"Digite seu nome.",FONE:"Digite um telefone com DDD.",END:"Digite o endereço completo.",BAIRRO:"Escolha o seu bairro.",NUM:"Digite o número da casa ou do prédio.",COTACAO:"Calcule a entrega (toque em Calcular entrega) antes de enviar.",MESA:"Mesa inválida. Escaneie de novo o QR Code da mesa.",PAG:"Escolha a forma de pagamento.",ITEM:"Algum item do seu pedido acabou. Revise o pedido.",ADIC:"Algum adicional não está disponível. Revise o pedido.",LIMITE:"Recebemos vários pedidos seus agora há pouco. Aguarde alguns minutos ou chame a gente no WhatsApp.",CHEIO:"Estamos com muitos pedidos no momento. Tente de novo em alguns minutos.",REDE:"Sem conexão. Verifique a internet e tente de novo."};
+
+const IG="kevaohamburgueria";
+const hh=t=>{const[a,b]=String(t||"").split(":");return a?(+a)+"h"+(b&&b!=="00"?b:""):"";};
+const NDIA=["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
+function diasTxt(ds){const s=[...(ds||[0,3,4,5,6])].map(Number).sort((a,b)=>((a+6)%7)-((b+6)%7)),k=s.map(d=>(d+6)%7);
+  const seq=k.every((v,i)=>!i||v===k[i-1]+1);if(seq&&s.length>2)return "de "+NDIA[s[0]]+" a "+NDIA[s[s.length-1]];
+  const n=s.map(d=>NDIA[d]);return n.length>1?n.slice(0,-1).join(", ")+" e "+n[n.length-1]:n[0]||"";}
+const fase=()=>L.fase||{fase:L.aberto?"aberto":"pausado"};
+const horTxt=F=>"Funcionamos "+diasTxt(F.dias)+", das "+hh(F.abre||"18:30")+" às "+hh(F.fecha||"23:30")+".";
+const igBtn=()=>el("a",{class:"btn sec",href:"https://instagram.com/"+IG,target:"_blank",rel:"noopener"},"Seguir @"+IG);
+function telaFechada(F){
+  $("bar").hidden=true;
+  let t,d;
+  if(MODO!=="Delivery"&&F.fase==="espera"){t="A cozinha abre às "+hh(F.abre);d="Assim que abrirmos, é só escanear o QR Code de novo e fazer seu pedido.";}
+  else if(F.prox==="hoje"){t="Ainda é cedo pra chapa";d="Obrigado por procurar a Kevão Hamburgueria! Hoje abrimos às "+hh(F.abre)+(MODO==="Delivery"?", e a partir das "+hh(F.esperaDesde||"10:00")+" você já pode deixar seu pedido na lista de espera.":".");}
+  else{t="A chapa já descansou por hoje";d="Obrigado por procurar a Kevão Hamburgueria! Voltamos "+(F.prox||"amanhã")+" a partir das "+hh(F.abre)+", e o seu lanche vai estar te esperando.";}
+  return $("app").replaceChildren(el("div",{class:"fechado"},el("h2",{},t),el("p",{class:"mut"},d),el("p",{class:"mut",style:"font-size:14px"},horTxt(F)),igBtn(),el("a",{class:"btn sec",href:"https://wa.me/"+WA,target:"_blank",rel:"noopener"},"Falar no WhatsApp")));
+}
+const qs=new URLSearchParams(location.search);
+const TESTE_KM=qs.get("teste")==="km";
+const modoKm=()=>L.modoEntrega==="km"||TESTE_KM;
+const MESA=/^\d{1,3}$/.test(qs.get("mesa")||"")?+qs.get("mesa"):null;
+const BALCAO=!MESA&&qs.has("balcao");
+const MODO=MESA?"Mesa":BALCAO?"Balcão":"Delivery";
+let L=null,cart=ls.get("kv_cart_"+MODO)||[],tela="menu",cat="",cli=ls.get("kv_cli")||{};
+const salvaCart=()=>ls.set("kv_cart_"+MODO,cart);
+
+if(MESA){$("modo").textContent="Mesa "+MESA;$("modo").hidden=false;}else if(BALCAO){$("modo").textContent="Balcão";$("modo").hidden=false;}else{$("modo").textContent="Delivery";$("modo").hidden=false;}
+
+const itens=c=>Object.entries(L.itens).filter(([n,v])=>v.cat===c&&!L.off.includes(n)).sort((a,b)=>pos(a[0])-pos(b[0]));
+const adics=()=>Object.entries(L.adic||{}).filter(([n])=>!L.off.includes("+ "+n));
+const precoLinha=i=>{const b=L.itens[i.n]?L.itens[i.n].p:0;return ((b+(i.combo?L.comboAdd:0))+(i.adic||[]).reduce((s,a)=>s+(L.adic[a]||0),0))*i.q;};
+const sub=()=>cart.reduce((s,i)=>s+precoLinha(i),0);
+const nItens=()=>cart.reduce((s,i)=>s+i.q,0);
+const qtdDe=n=>cart.filter(i=>i.n===n).reduce((s,i)=>s+i.q,0);
+function limpaCart(){cart=cart.filter(i=>L.itens[i.n]&&!L.off.includes(i.n));cart.forEach(i=>{i.adic=(i.adic||[]).filter(a=>L.adic[a]!==undefined&&!L.off.includes("+ "+a));});salvaCart();}
+
+async function init(){
+  const st=ls.get("kv_ped");
+  try{L=await rpc("loja_publica");L.off=L.off||[];}catch(e){$("app").replaceChildren(el("div",{class:"fechado"},el("h2",{},"Sem conexão"),el("p",{class:"mut"},"Não foi possível carregar o cardápio. Verifique a internet."),el("button",{class:"btn",onclick:()=>location.reload()},"Tentar de novo")));return;}
+  const ua=navigator.userAgent;KT.ev("visita",{dev:/iphone|ipad/i.test(ua)?"iphone":/android/i.test(ua)?"android":"pc",w:innerWidth,ms:Date.now()-T0});
+  if(Date.now()-T0>4000)KT.ev("lento",{ms:Date.now()-T0});
+  const ck=ls.get("kv_clube");if(ck&&ck.t){try{CLUBE=await rpc("clube_oi",{p_token:ck.t});if(!CLUBE)ls.del("kv_clube");}catch(e){}}
+  if(st&&st.id&&Date.now()-st.at<6*3600e3){tela="status";return draw();}
+  limpaCart();draw();
+}
+function draw(){
+  window.scrollTo(0,0);
+  if(tela==="status"){drawStatus().then(anima);return;}
+  const F=fase();
+  if(F.fase==="fechado"||(F.fase==="espera"&&MODO!=="Delivery"))return telaFechada(F);
+  if(F.fase==="pausado"){$("bar").hidden=true;return $("app").replaceChildren(el("div",{class:"fechado"},el("h2",{},"Estamos fechados agora"),el("p",{class:"mut"},"Os pedidos pelo site estão pausados no momento."),el("a",{class:"btn sec",href:"https://wa.me/"+WA,target:"_blank",rel:"noopener"},"Falar no WhatsApp")));}
+  if(MODO==="Mesa"&&(!L.mesas||MESA>L.mesas)){$("bar").hidden=true;return $("app").replaceChildren(el("div",{class:"fechado"},el("h2",{},"Mesa não encontrada"),el("p",{class:"mut"},"Escaneie de novo o QR Code da sua mesa ou peça no caixa.")));}
+  if(MODO==="Delivery"&&!modoKm()&&!(L.bairros||[]).length){$("bar").hidden=true;return $("app").replaceChildren(el("div",{class:"fechado"},el("h2",{},"Delivery indisponível"),el("p",{class:"mut"},"No momento não estamos entregando pelo site."),el("a",{class:"btn sec",href:"https://wa.me/"+WA,target:"_blank",rel:"noopener"},"Falar no WhatsApp")));}
+  if(tela==="menu")drawMenu();else drawCheckout();
+  anima();
+}
+function anima(){const a=$("app");a.classList.remove("kvIn");void a.offsetWidth;a.classList.add("kvIn");}
+function drawBar(txt,fn,dis){const b=$("barBtn");$("bar").hidden=false;b.replaceChildren(...txt);b.onclick=fn;b.disabled=!!dis;}
+
+/* ---------- cardápio ---------- */
+/* ordem das seções do cardápio (rolagem contínua, estilo iFood). Para mudar a ordem, troque aqui. */
+const ORDEM_SEC=["top","casa","classicos","Combos","Porções","Bebidas"];
+function secoes(){
+  const lan=itens("Lanches"),S={
+    casa:{id:"Lanches",chip:"Lanches",tit:"Os lanches da casa",cat:"Lanches",it:lan.filter(([n])=>!n.startsWith("X-"))},
+    classicos:{id:"Classicos",chip:"Clássicos",tit:"Clássicos",cat:"Lanches",it:lan.filter(([n])=>n.startsWith("X-"))}};
+  ["Combos","Porções","Bebidas"].forEach(c=>S[c]={id:c,chip:c,tit:c,cat:c,it:itens(c)});
+  S.top={id:"Top",chip:"Mais pedidos",tit:"Mais pedidos",cat:"Lanches",top:true,it:TOP.filter(disp).map(n=>[n,L.itens[n]])};
+  return ORDEM_SEC.map(k=>S[k]).filter(x=>x&&x.it.length);
+}
+function drawMenu(){
+  const ss=secoes();
+  if(!ss.some(x=>x.id===cat))cat=ss[0]&&ss[0].id;
+  const chips=el("div",{class:"chips"},...ss.map(x=>el("button",{class:x.id===cat?"on":"","data-c":x.id,onclick:()=>irPara(x.id)},x.chip)));
+  const secs=ss.map(x=>{const c=x.cat;
+    if(x.top)return el("section",{id:"sec-Top",class:"sec"},el("h2",{},x.tit),el("p",{class:"mut",style:"margin:-4px 0 10px;font-size:14px"},"Os campeões da chapa. Arraste para o lado."),
+      el("div",{class:"topRow"},...x.it.map(([n,v],i)=>el("button",{class:"topC",onclick:()=>{KT.ev("top_clique",{n,pos:i+1});abreLanche(n);}},
+        el("span",{class:"rk"},(i+1)+"º"),el("b",{},n),el("div",{class:"ds"},DESC[n]||""),el("div",{class:"pr"},brl(v.p))))));
+    return el("section",{id:"sec-"+x.id,class:"sec"},el("h2",{},x.tit),
+    x.id==="Lanches"?el("p",{class:"mut",style:"margin:-4px 0 10px;font-size:14px"},"Qualquer lanche vira combo: + "+brl(L.comboAdd)+" com batata e Coca lata."):"",
+    ...agrupa(c,x.it).map(y=>y.sg?el("div",{class:"sg"},el("span",{},y.sg),el("span",{},y.pr)):(([n,v])=>{const q=qtdDe(n);
+      return el("button",{class:"it",onclick:()=>c==="Lanches"?abreLanche(n):/^Combo (Casal|Família)/.test(n)?abreCombo(n):addSimples(n)},
+        el("div",{class:"tx"},el("b",{},n),DESC[n]?el("div",{class:"ds"},DESC[n]):"",el("div",{class:"pr"},brl(v.p),c==="Lanches"?el("small",{},"combo "+brl(v.p+L.comboAdd)):"")),
+        c!=="Lanches"&&q?el("span",{class:"stp",onclick:e=>e.stopPropagation()},el("span",{class:"sb",role:"button","aria-label":"Tirar um",onclick:e=>{e.stopPropagation();tiraSimples(n);}},"−"),el("b",{},String(q)),el("span",{class:"sb",role:"button","aria-label":"Pôr mais um",onclick:e=>{e.stopPropagation();addSimples(n);}},"+")):
+        q?el("span",{class:"qt"},q+"×"):el("span",{class:"add","aria-hidden":"true"},"+"));
+    })(y)));});
+  const F=fase(),esp=F.fase==="espera"?el("div",{class:"esp"},el("b",{},"A chapa ainda está esquentando"),
+    el("p",{},"Abrimos às "+hh(F.abre)+", mas a fila já começou. Quem pede antes, come antes: faça seu pedido agora e ele entra na lista de espera. Assim que a gente chegar, o seu é dos primeiros a ir pra brasa."),
+    el("small",{},"Pagamento só na entrega. "+horTxt(F))):"";
+  const oi=CLUBE?(()=>{const r=recomenda(),u=CLUBE.ultimo,[t1,t2]=tituloOi(CLUBE),uc=ultimoCart();
+      const sempre=CLUBE.fav&&CLUBE.favQ>=2&&CLUBE.fav===u&&uc;
+      return el("div",{class:"oi"},el("b",{},t1),t2?el("p",{style:"margin:0 0 6px"},t2):"",
+        sempre?el("p",{},"O seu "+CLUBE.fav+" de sempre? Já está a um toque."):"",
+        sempre?el("button",{class:"btn",style:"margin-bottom:10px",onclick:repetir},"Repetir meu pedido"):"",
+        r?el("p",{},recTexto(r,u)):"",
+        r?el("button",{class:sempre?"btn sec2":"btn",onclick:()=>{KT.ev("recomendacao",{n:r});abreLanche(r);}},"Experimentar o "+r):"",
+        !sempre&&!r&&uc?el("button",{class:"btn",onclick:repetir},"Repetir meu último pedido"):"",
+        el("div",{style:"border-top:1px solid #4A4038;margin:14px 0 0;padding-top:12px"},el("div",{style:"font-weight:800;font-size:15px"},"Seu cartão fidelidade"),selosEl(CLUBE.selos),el("p",{style:"margin:0;font-size:14px"},selosTexto(CLUBE))),
+        el("button",{class:"sair",onclick:()=>{ls.del("kv_clube");CLUBE=null;drawMenu();}},"Não é você? Toque aqui"));})():"";
+  const niver=CLUBE&&CLUBE.niverHoje?el("div",{class:"niver"},el("b",{},"Hoje é seu dia, "+CLUBE.nome+"!"),el("div",{},"Feliz aniversário! Traga pelo menos 5 amigos e o seu lanche é por nossa conta. É só mostrar esta tela no caixa.")):"";
+  const ajuda=el("button",{class:"ajuda",onclick:()=>abreAjuda("menu")},"Algo não funcionou? Conte pra gente");
+  const duvida=voltas>=2&&!enviou?el("div",{class:"aviso",style:"margin-top:12px"},el("b",{},"Ficou alguma dúvida?"),el("div",{},"Se algo atrapalhou o seu pedido, conte pra gente ou chame no WhatsApp."),
+    el("button",{onclick:()=>abreAjuda("voltas")},"Contar o que aconteceu")):"";
+  $("app").replaceChildren(niver,oi,esp,duvida,chips,...secs,botaoInstalar(),ajuda);
+  requestAnimationFrame(()=>{marcaChip(cat,false);espia();});
+  const n=nItens();
+  if(n)drawBar([el("span",{},"Ver pedido · "+n+(n>1?" itens":" item")),el("span",{},brl(sub()))],verPedido);else $("bar").hidden=true;
+}
+function addSimples(n){const f=cart.find(i=>i.n===n&&!i.combo&&!(i.adic||[]).length&&!i.obs);if(f)f.q++;else cart.push({n,q:1,combo:false,adic:[],obs:""});KT.ev("add",{n});salvaCart();toast(n+" adicionado");drawMenu();}
+function abreCombo(n){
+  KT.ev("abriu_lanche",{n});
+  const v=L.itens[n],casal=/Casal/.test(n);let q=1,obs="";
+  const ops=(casal?[["Coca-Cola","Coca-Cola Lata"],["Coca Zero","Coca Zero Lata"],["Sprite","Sprite Lata"],["Sprite Zero","Sprite Zero Lata"]]:[["Coca-Cola 1 litro","Coca-Cola 1L"],["Coca Zero 1 litro","Coca Zero 1L"]]).filter(([,k])=>!L.itens[k]||disp(k)).map(([t])=>t);
+  if(!ops.length)ops.push(casal?"Coca-Cola":"Coca-Cola 1 litro");
+  const sel=casal?[ops[0],ops[0]]:[ops[0]];
+  const btn=el("button",{class:"btn add"}),qb=el("b",{},"1");
+  const upd=()=>{btn.textContent="Adicionar · "+brl(v.p*q);qb.textContent=q;};
+  const grupo=i=>{const g=el("div",{role:"radiogroup"});ops.forEach(o=>{const b=el("button",{class:"esc"+(sel[i]===o?" on":""),type:"button",role:"radio","aria-checked":sel[i]===o?"true":"false",onclick:()=>{sel[i]=o;[...g.children].forEach(x=>{const on=x===b;x.classList.toggle("on",on);x.setAttribute("aria-checked",on?"true":"false");});}},el("span",{class:"rd"}),el("span",{class:"tx"},el("b",{},o)),el("em",{},"incluso"));g.append(b);});return g;};
+  const pg=el("div",{class:"pg",role:"dialog","aria-label":n},
+    el("div",{class:"pgTop"},el("button",{"aria-label":"Voltar ao cardápio",onclick:()=>fechaFolha()},"‹ Voltar"),el("span",{class:"pgNome"},n)),
+    el("div",{class:"pgIn"},
+      el("h1",{},n),DESC[n]?el("p",{class:"mut",style:"margin:0 0 6px"},DESC[n]):"",
+      el("div",{class:"pr1"},brl(v.p)),
+      el("div",{class:"aviso",style:"margin:10px 0 4px"},el("b",{},casal?"Já vem com 2 latas":"Já vem com 1 Coca de 1 litro"),el("div",{},casal?"As bebidas fazem parte do combo. Escolha o sabor de cada lata:":"A bebida faz parte do combo. Escolha qual você prefere:")),
+      ...(casal?[el("div",{class:"passo"},el("b",{},"1ª lata"),el("span",{class:"tag"},"Escolha 1")),grupo(0),el("div",{class:"passo"},el("b",{},"2ª lata"),el("span",{class:"tag"},"Escolha 1")),grupo(1)]
+               :[el("div",{class:"passo"},el("b",{},"Refrigerante 1 litro"),el("span",{class:"tag"},"Escolha 1")),grupo(0)]),
+      el("div",{class:"passo"},el("b",{},"Alguma observação?"),el("span",{class:"tag op"},"Opcional")),
+      el("input",{type:"text",maxlength:"60",placeholder:"Ex.: um sem cebola",oninput:e=>{obs=e.target.value;}})),
+    el("div",{class:"pgBar"},el("div",{class:"qty"},el("button",{"aria-label":"Menos",onclick:()=>{if(q>1){q--;upd();}}},"−"),qb,el("button",{"aria-label":"Mais",onclick:()=>{if(q<20){q++;upd();}}},"+")),btn));
+  btn.onclick=()=>{const b=(casal?"Latas: ":"Bebida: ")+(casal&&sel[0]===sel[1]?"2 "+sel[0]:sel.join(" + "));const o=[b,obs.trim()].filter(Boolean).join(", ");cart.push({n,q,combo:false,adic:[],obs:o});KT.ev("add",{n});salvaCart();fechaFolha();toast("✓ "+q+"× "+n+" no pedido");drawMenu();};
+  upd();document.body.append(pg);folha=pg;camada("folha");
+}
+function abreLanche(n){
+  KT.ev("abriu_lanche",{n});let pos=false;
+  const v=L.itens[n];let q=1,combo=false,ad=new Set(),obsCh=new Set(),obs="";
+  const preco=()=>(v.p+(combo?L.comboAdd:0)+[...ad].reduce((s,a)=>s+L.adic[a],0))*q;
+  const btn=el("button",{class:"btn add"}),qb=el("b",{},"1");
+  const upd=()=>{btn.textContent="Adicionar · "+brl(preco());qb.textContent=q;};
+  const escolha=(on,titulo,sub,preco,fn)=>{const b=el("button",{class:"esc"+(on?" on":""),type:"button",role:"radio","aria-checked":on?"true":"false",onclick:()=>fn(b)},el("span",{class:"rd"}),el("span",{class:"tx"},el("b",{},titulo),sub?el("small",{},sub):""),el("em",{},preco));return b;};
+  const g1=el("div",{role:"radiogroup"});
+  const marca=b=>{[...g1.children].forEach(x=>{const on=x===b;x.classList.toggle("on",on);x.setAttribute("aria-checked",on?"true":"false");});};
+  g1.append(
+    escolha(true,"Só o lanche","",brl(v.p),b=>{combo=false;marca(b);upd();}),
+    escolha(false,"Combo","Lanche + batata + Coca-Cola lata",brl(v.p+L.comboAdd),b=>{combo=true;marca(b);upd();}));
+  const adicional=([a,p])=>{const b=el("button",{class:"esc ck",type:"button",role:"checkbox","aria-checked":"false",onclick:()=>{const on=!ad.has(a);on?ad.add(a):ad.delete(a);b.classList.toggle("on",on);b.setAttribute("aria-checked",on?"true":"false");upd();}},el("span",{class:"rd"}),el("span",{class:"tx"},el("b",{},a)),el("em",{},"+ "+brl(p)));return b;};
+  const rapidos=["Sem cebola","Sem molho","Sem tomate","Sem alface"].map(t=>{const b=el("button",{class:"ob",type:"button",onclick:()=>{obsCh.has(t)?obsCh.delete(t):obsCh.add(t);b.classList.toggle("on",obsCh.has(t));}},t);return b;});
+  const pg=el("div",{class:"pg",role:"dialog","aria-label":n},
+    el("div",{class:"pgTop"},el("button",{"aria-label":"Voltar ao cardápio",onclick:()=>fechaFolha()},"‹ Voltar"),el("span",{class:"pgNome"},n)),
+    el("div",{class:"pgIn"},
+      el("h1",{},n),DESC[n]?el("p",{class:"mut",style:"margin:0 0 6px"},DESC[n]):"",NOCUT.has(n)?el("div",{class:"nocut"},"Não cortamos ao meio."):"",
+      el("div",{class:"pr1"},brl(v.p)),
+      el("div",{class:"passo"},el("b",{},"1. Como você quer?"),el("span",{class:"tag"},"Escolha 1")),g1,
+      adics().length?el("div",{class:"passo"},el("b",{},"2. Quer adicionais?"),el("span",{class:"tag op"},"Opcional")):"",
+      ...adics().map(adicional),
+      el("div",{class:"passo"},el("b",{},(adics().length?"3":"2")+". Alguma observação?"),el("span",{class:"tag op"},"Opcional")),
+      el("div",{class:"obs"},...rapidos),
+      el("input",{type:"text",maxlength:"100",placeholder:"Outra observação (ex.: ponto da carne)",oninput:e=>{obs=e.target.value;}})),
+    el("div",{class:"pgBar"},el("div",{class:"qty"},el("button",{"aria-label":"Menos",onclick:()=>{if(q>1){q--;upd();}}},"−"),qb,el("button",{"aria-label":"Mais",onclick:()=>{if(q<20){q++;upd();}}},"+")),btn));
+  btn.onclick=()=>{const o=[...obsCh,obs.trim()].filter(Boolean).join(", ");cart.push({n,q,combo,adic:[...ad],obs:o});pos=true;KT.ev("add",{n,combo});salvaCart();fechaFolha();toast("✓ "+q+"× "+n+(combo?" (combo)":"")+" no pedido");drawMenu();};
+  upd();document.body.append(pg);folha=pg;camada("folha");pg.addEventListener("kvFechou",()=>{if(!pos&&!pg.dataset.f){pg.dataset.f=1;KT.ev("fechou_lanche",{n});}});
+  let fx=null,fy=0;pg.addEventListener("touchstart",e=>{if(e.touches.length!==1||e.target.closest("input")){fx=null;return;}fx=e.touches[0].clientX;fy=e.touches[0].clientY;},{passive:true});
+  pg.addEventListener("touchend",e=>{if(fx===null)return;const t=e.changedTouches[0],dx=t.clientX-fx,dy=t.clientY-fy;fx=null;if(dx>70&&dx>Math.abs(dy)*1.6)fechaFolha();},{passive:true});
+}
+/* bebidas em grupos: lata, 1 litro, água */
+function agrupa(c,lista){
+  if(c!=="Bebidas")return lista;
+  const G=[["Refrigerante lata",/lata/i],["Refrigerante 1 litro",/1L$/i],["Água",/^Água/i],["Suco",/^Suco/i]],usados=new Set(),out=[];
+  G.forEach(([t,re])=>{const g=lista.filter(([n])=>re.test(n)&&!usados.has(n));if(!g.length)return;g.forEach(([n])=>usados.add(n));out.push({sg:t,pr:g.every(x=>x[1].p===g[0][1].p)?brl(g[0][1].p):"330 ml · 1 litro"},...g);});
+  const resto=lista.filter(([n])=>!usados.has(n));if(resto.length)out.push({sg:"Outras bebidas",pr:""},...resto);
+  return out;
+}
+function tiraSimples(n){const i=cart.findIndex(x=>x.n===n&&!x.combo&&!(x.adic||[]).length&&!x.obs);if(i<0)return;cart[i].q--;if(cart[i].q<1)cart.splice(i,1);salvaCart();drawMenu();}
+/* rolagem contínua: a barra de categorias acompanha onde o cliente está */
+function marcaChip(c,rolar){
+  const ch=document.querySelector(".chips");if(!ch)return;
+  [...ch.children].forEach(b=>{const on=b.dataset.c===c;if(b.classList.contains("on")!==on)b.className=on?"on":"";
+    if(on&&rolar)ch.scrollTo({left:Math.max(0,b.offsetLeft-(ch.clientWidth-b.offsetWidth)/2),behavior:"smooth"});});
+}
+let indo=null,indoT=null;
+function topoSecao(id){const sec=$("sec-"+id),ch=document.querySelector(".chips");if(!sec)return 0;return sec.getBoundingClientRect().top+window.scrollY-(ch?ch.offsetHeight:0)-4;}
+function irPara(id){
+  if(!$("sec-"+id))return;cat=id;indo=id;marcaChip(id,true);
+  window.scrollTo({top:topoSecao(id),behavior:"smooth"});
+  clearTimeout(indoT);indoT=setTimeout(()=>{indo=null;},900);
+}
+let spyR=false;
+function espia(){
+  spyR=false;if(tela!=="menu"||indo||folha)return;
+  const ch=document.querySelector(".chips");if(!ch)return;const lim=ch.getBoundingClientRect().bottom+60;
+  const secs=[...document.querySelectorAll("section.sec")];if(!secs.length)return;
+  let at=secs[0].id.slice(4);
+  for(const s of secs){if(s.getBoundingClientRect().top<=lim)at=s.id.slice(4);}
+  if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4)at=secs[secs.length-1].id.slice(4);
+  if(at!==cat){cat=at;marcaChip(at,true);}
+}
+addEventListener("scroll",()=>{if(!spyR){spyR=true;requestAnimationFrame(espia);}},{passive:true});
+let folha=null;
+function camada(n){try{history.pushState({kv:n},"");}catch(e){}}
+function fechaFolha(){if(!folha)return;folha.dispatchEvent(new Event("kvFechou"));if(history.state&&history.state.kv==="folha")history.back();else{const f=folha;folha=null;f.classList.add("sai");setTimeout(()=>f.remove(),220);}}
+function voltaMenu(){voltas++;KT.ev("voltou_menu");if(history.state&&history.state.kv==="checkout")history.back();else{tela="menu";draw();}}
+window.addEventListener("popstate",()=>{
+  if(folha){const f=folha;folha=null;f.dispatchEvent(new Event("kvFechou"));f.classList.add("sai");setTimeout(()=>f.remove(),220);return;}
+  if(tela==="checkout"){tela="menu";draw();}
+});
+let tx0=null,ty0=0;
+$("app").addEventListener("touchstart",e=>{if(tela!=="checkout"||e.touches.length!==1||e.target.closest(".chips,input,textarea,select")){tx0=null;return;}tx0=e.touches[0].clientX;ty0=e.touches[0].clientY;},{passive:true});
+$("app").addEventListener("touchend",e=>{if(tx0===null)return;const t=e.changedTouches[0],dx=t.clientX-tx0,dy=t.clientY-ty0;tx0=null;
+  if(Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.6)return;
+  if(tela==="checkout"&&dx>0)voltaMenu();},{passive:true});
+let tT=null;function toast(m){let t=$("toast");if(!t){t=el("div",{id:"toast",style:"position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--dk);color:var(--onac);padding:10px 16px;border-radius:999px;font-weight:700;z-index:50;font-size:15px;max-width:90vw;text-align:center"});document.body.append(t);}t.textContent=m;t.hidden=false;clearTimeout(tT);tT=setTimeout(()=>t.hidden=true,1800);}
+
+/* ---------- finalizar ---------- */
+let pag=["Crédito","Débito","Pix","Dinheiro"].includes(cli.pag)?cli.pag:"",enviando=false,levar=false,foneAviso="";
+let upsellFeito=false,avNota=0,avTxt="",instEvt=null;
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();instEvt=e;});
+addEventListener("appinstalled",()=>{KT.ev("instalou");KT.flush();});
+const instalado=()=>{try{return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;}catch(e){return false;}};
+/* ----- cartão fidelidade: 10 lanches = 1 grátis ----- */
+const premioDesc=()=>{if(!CLUBE||!(CLUBE.selos>=10))return null;let best=null;cart.forEach(i=>{const v=L.itens[i.n];if(v&&v.cat==="Lanches"&&(!best||v.p>best.p))best={n:i.n,p:v.p};});return best;};
+function selosEl(n){n=Math.max(0,Math.min(10,n||0));return el("div",{class:"selos","aria-label":n+" de 10 selos"},...Array.from({length:10},(_,i)=>el("i",{class:i<n?"on":""},i<n?"✓":"")),el("i",{class:"g"},"grátis"));}
+function selosTexto(c){const n=c.selos||0;
+  if(n>=10)return "Seu lanche grátis está liberado! No seu próximo pedido, o lanche mais caro sai por nossa conta.";
+  if(n===0)return "Cada lanche vale 1 selo. Juntou 10, um lanche é por nossa conta.";
+  const f=10-n;return "Você tem "+n+" selo"+(n>1?"s":"")+". Falta"+(f>1?"m ":" ")+f+" para o seu lanche grátis!";}
+/* ----- previsão de chegada ----- */
+const r5=(t,up)=>{const m=5*60000;return up?Math.ceil(t/m)*m:Math.floor(t/m)*m;};
+const hhm=t=>{const d=new Date(t);return d.getHours()+"h"+String(d.getMinutes()).padStart(2,"0");};
+function previsao(s,st){
+  if(!s||!s.agora||s.status==="online"||s.status==="entregue"||s.entregueEm||["recusado","cancelado"].includes(s.status))return null;
+  const now=s.agora,M=60000,dl=st.modo==="Delivery",viagem=dl?Math.round(6+(+s.km||3)*2.5):0;
+  if(!dl&&(s.status==="pronto"||s.status==="nocaixa"))return null;
+  let pronto=s.status==="novo"?now+(15+4*(s.fila||0))*M:s.status==="preparo"?now+Math.max(6,10+3*(s.fila||0))*M:now+2*M;
+  let eta=dl?(s.status==="nocaixa"&&s.moto&&s.saiuEm?s.saiuEm+viagem*M:pronto+viagem*M):pronto;
+  if(eta<now+3*M)eta=now+3*M;
+  return dl?{t:"Chega entre "+hhm(r5(eta-5*M))+" e "+hhm(r5(eta+10*M,true)),d:"Previsão pela fila da cozinha e pela distância. Pode variar um pouco."}
+           :{t:"Fica pronto por volta de "+hhm(r5(eta,true)),d:"Previsão pela fila da cozinha."};
+}
+/* ----- instalar o app ----- */
+const SHARE_SVG='<svg width="18" height="20" viewBox="0 0 18 20" fill="none" stroke="#2C7BE5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 13V2M5 5.5 9 2l4 3.5"/><path d="M6 8H3.5A1.5 1.5 0 0 0 2 9.5v8A1.5 1.5 0 0 0 3.5 19h11a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 8H12"/></svg>';
+function ico(html){const s=el("span",{class:"ico"});s.innerHTML=html;return s;}
+function passosInstalar(){
+  const ua=navigator.userAgent,ios=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1),and=/android/i.test(ua);
+  const inApp=/Instagram|FBAN|FBAV|FB_IAB|WhatsApp|Line\//i.test(ua);
+  if(inApp)return {tit:"Abra no navegador primeiro",passos:[ios?["Toque nos três pontinhos ",el("b",{},"⋯")," no canto da tela."]:["Toque nos três pontinhos ",el("b",{},"⋮")," no canto de cima."],
+    [ios?"Escolha ":"Escolha ",el("b",{},ios?"\"Abrir no navegador externo\"":"\"Abrir no Chrome\""),"."],["Depois toque de novo em ",el("b",{},"Instalar o app Kevão"),"."]]};
+  if(ios&&/CriOS|FxiOS|EdgiOS/i.test(ua))return {tit:"No iPhone (Chrome)",passos:[["Toque no botão Compartilhar ",ico(SHARE_SVG)," na barra de endereço, em cima."],["Toque em ",el("b",{},"\"Adicionar à Tela de Início\""),"."],["Toque em ",el("b",{},"\"Adicionar\""),". Pronto: o Kevão aparece na sua tela!"]],obs:"Se não aparecer a opção, abra este link no Safari e faça por lá."};
+  if(ios)return {tit:"No iPhone",passos:[["Toque no botão Compartilhar ",ico(SHARE_SVG)," na barra de baixo da tela."],["Role a lista e toque em ",el("b",{},"\"Adicionar à Tela de Início\""),"."],["Toque em ",el("b",{},"\"Adicionar\""),", no canto de cima. Pronto: o Kevão aparece na sua tela!"]]};
+  if(and&&/SamsungBrowser/i.test(ua))return {tit:"No Android (Samsung Internet)",passos:[["Toque no menu ",el("b",{},"≡")," na barra de baixo."],["Toque em ",el("b",{},"\"Adicionar página a\"")," e depois em ",el("b",{},"\"Tela inicial\""),"."],["Confirme em ",el("b",{},"\"Adicionar\""),". Pronto!"]]};
+  if(and)return {tit:"No Android",passos:[["Toque nos três pontinhos ",el("b",{},"⋮"),", no canto de cima à direita."],["Toque em ",el("b",{},"\"Instalar app\"")," ou ",el("b",{},"\"Adicionar à tela inicial\""),"."],["Toque em ",el("b",{},"\"Instalar\""),". Pronto: o Kevão aparece na sua tela!"]]};
+  return {tit:"No computador",passos:[["Clique no ícone de instalar, no fim da barra de endereço (um monitor com seta)."],["Ou abra o menu do navegador e escolha ",el("b",{},"\"Instalar Kevão Delivery\""),"."]],obs:"No celular fica ainda melhor: abra este link nele."};
+}
+async function instalar(){
+  KT.ev("instalar_clique",{nativo:!!instEvt});
+  if(instEvt){try{instEvt.prompt();const r=await instEvt.userChoice;instEvt=null;if(r&&r.outcome==="accepted")return;}catch(e){}}
+  const P=passosInstalar();
+  const ov=el("div",{class:"ov",onclick:e=>{if(e.target===ov)ov.remove();}},el("div",{class:"sh"},
+    el("b",{style:"font-size:20px;display:block"},"Instalar o app Kevão"),el("div",{class:"mut",style:"font-size:14px;margin:2px 0 4px"},P.tit+" · leva 10 segundos, sem baixar nada da loja de apps."),
+    el("ol",{class:"passos"},...P.passos.map(p=>el("li",{},el("span",{},...p)))),P.obs?el("p",{class:"privado"},P.obs):"",
+    el("button",{class:"btn",style:"margin-top:12px",onclick:()=>ov.remove()},"Entendi")));
+  document.body.append(ov);
+}
+const botaoInstalar=()=>instalado()||MODO==="Mesa"?"":el("button",{class:"inst",onclick:instalar},el("img",{src:"/pedido-icon-192.png",alt:""}),el("span",{},el("b",{},"Instalar o app Kevão"),el("span",{class:"mut",style:"font-size:14px"},"Peça com um toque, direto da tela do celular.")));
+function sugestao(){
+  const lan=cart.filter(i=>(L.itens[i.n]||{}).cat==="Lanches"),nL=lan.reduce((a,i)=>a+i.q,0),cat=c=>cart.some(i=>(L.itens[i.n]||{}).cat===c);
+  const temBeb=cat("Bebidas")||cart.some(i=>i.combo)||cart.some(i=>/^Combo /.test(i.n));
+  const nm=CLUBE?CLUBE.nome:"";
+  const semCombo=lan.find(i=>!i.combo);
+  if(semCombo&&nL===1&&!cat("Porções"))return {k:"combo",t:"Que tal virar combo?",d:"Por + "+brl(L.comboAdd)+" vem batata e Coca lata. Lanche sem batata é só metade da festa.",preco:L.comboAdd,fazer:()=>{if(semCombo.q>1){semCombo.q--;cart.push(Object.assign({},semCombo,{q:1,combo:true}));}else semCombo.combo=true;}};
+  if(CLUBE&&CLUBE.adic&&L.adic&&L.adic.Bacon&&!(L.off||[]).includes("+ Bacon")&&lan.length&&!lan.some(i=>(i.adic||[]).length)){const alvo=lan[0];
+    return {k:"bacon",t:"Bacon extra"+(nm?", "+nm:"")+"?",d:"Do jeito que você gosta: + "+brl(L.adic.Bacon)+" no "+alvo.n+".",preco:L.adic.Bacon*(alvo.q||1),fazer:()=>{alvo.adic=[...(alvo.adic||[]),"Bacon"];}};}
+  if(!temBeb&&nL>=2&&disp("Coca-Cola 1L"))return {k:"coca1l",t:"Vai dividir?",d:"A Coca 1 litro sai mais em conta que duas latas: "+brl(L.itens["Coca-Cola 1L"].p)+".",preco:L.itens["Coca-Cola 1L"].p,fazer:()=>addItem("Coca-Cola 1L")};
+  if(!temBeb&&nL>=1&&disp("Coca-Cola Lata"))return {k:"lata",t:"Lanche bom pede uma gelada",d:"Coca lata por "+brl(L.itens["Coca-Cola Lata"].p)+"?",preco:L.itens["Coca-Cola Lata"].p,fazer:()=>addItem("Coca-Cola Lata")};
+  if(nL>=3&&!cat("Porções")&&disp("Batata com Cheddar e Bacon"))return {k:"porcao",t:"Pra galera beliscar",d:"Batata com cheddar e bacon enquanto o lanche chega? "+brl(L.itens["Batata com Cheddar e Bacon"].p)+".",preco:L.itens["Batata com Cheddar e Bacon"].p,fazer:()=>addItem("Batata com Cheddar e Bacon")};
+  return null;
+}
+function addItem(n){const f=cart.find(i=>i.n===n&&!i.combo&&!(i.adic||[]).length&&!i.obs);if(f)f.q++;else cart.push({n,q:1,combo:false,adic:[],obs:""});}
+function irCheckout(){tela="checkout";KT.ev("checkout",{itens:cart.length});camada("checkout");draw();}
+function verPedido(){
+  const sg=upsellFeito?null:sugestao();upsellFeito=true;
+  if(!sg)return irCheckout();
+  KT.ev("sugestao_vista",{k:sg.k});
+  const ov=el("div",{class:"ov"}),sai=()=>ov.remove();
+  ov.onclick=e=>{if(e.target===ov){sai();irCheckout();}};
+  ov.append(el("div",{class:"sh"},el("b",{style:"font-size:21px;display:block;margin-bottom:4px"},sg.t),el("p",{style:"margin:0 0 14px;font-size:16px"},sg.d),
+    el("button",{class:"btn",onclick:()=>{sg.fazer();salvaCart();KT.ev("sugestao_aceita",{k:sg.k});sai();toast("Adicionado ao pedido");irCheckout();}},"Adicionar · + "+brl(sg.preco)),
+    el("button",{class:"btn sec",style:"margin-top:10px",onclick:()=>{sai();irCheckout();}},"Agora não")));
+  document.body.append(ov);
+}
+let AC=null,wl=null,CLUBE=null,clubeOn=false,clubeFone="",nascD="",nascM="",voltas=0,enviou=false;
+const TOP=["Kevão Bacon","Kevão Exagerado","Kevão Burger"];
+const PROMO_NIVER="No dia do seu aniversário, venha com pelo menos 5 amigos e o seu lanche é por nossa conta.";
+const disp=n=>L&&L.itens&&L.itens[n]&&!(L.off||[]).includes(n);
+const REC={
+  "Tropicália":u=>(u?"Da última vez foi o "+u+", né? ":"")+"Hoje eu separei uma surpresa: o Tropicália, com pernil desfiado, catupiry e um toque de abacaxi. Doce, salgado e cremoso na mesma mordida. Bora?",
+  "Kevão Bacon":u=>(u?"Da última vez foi o "+u+". ":"")+"Hoje a pedida é o Kevão Bacon: bacon de verdade, crocante, do jeito que tem que ser. Quem prova, volta.",
+  "Kevão Exagerado":u=>(u?"Da última vez foi o "+u+". ":"")+"Se a fome hoje tá grande, eu tenho a resposta: o Exagerado. Duas carnes de 150 g e bacon em exagero. Depois não diz que eu não avisei.",
+  "Kevão Burger":u=>(u?"Da última vez foi o "+u+". ":"")+"Às vezes o clássico é tudo: o Kevão Burger, carne de 150 g na brasa, cheddar e cebola roxa. Simples e certeiro."};
+const recTexto=(r,u)=>REC[r]?REC[r](u):(u?"Da última vez foi o "+u+". ":"")+"Hoje a minha recomendação é o "+r+". Tenho certeza que você vai se surpreender.";
+function tituloOi(c){
+  if(c.dias!=null&&c.dias>30)return ["Que saudade, "+c.nome+"!","Faz um tempinho que você não aparece. A chapa tá quente esperando você."];
+  if(c.pedidos>=5)return [c.nome+", você já é de casa!","Esse vai ser o seu "+(c.pedidos+1)+"º pedido com a gente."];
+  if(c.pedidos>=1)return ["Que bom te ver de volta, "+c.nome+"!","Já estávamos com saudade."];
+  return ["Olá, "+c.nome+"!",""];
+}
+const ultimoCart=()=>{const u=ls.get("kv_ultimo");return u&&Array.isArray(u.c)&&u.c.length&&u.c.every(i=>disp(i.n))?u.c:null;};
+function repetir(){const u=ultimoCart();if(!u)return;cart=u.map(i=>Object.assign({},i));salvaCart();KT.ev("repetiu",{n:cart.length});upsellFeito=true;tela="checkout";camada("checkout");draw();}
+const recomenda=()=>{const u=CLUBE&&CLUBE.ultimo;return TOP.find(n=>n!==u&&disp(n))||null;};
+function somOk(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();}catch(e){}}
+function abreAjuda(tela0){
+  const ta=el("textarea",{maxlength:"600",placeholder:"Conte rapidinho o que aconteceu ou o que podia ser mais fácil."});
+  const ov=el("div",{class:"ov",onclick:e=>{if(e.target===ov)ov.remove();}},el("div",{class:"sh"},
+    el("b",{style:"font-size:19px;display:block;margin-bottom:4px"},"Algo não funcionou?"),
+    el("p",{class:"mut",style:"margin:0 0 10px;font-size:14px"},"Sua mensagem ajuda a gente a melhorar o site. Não precisa se identificar."),ta,
+    el("button",{class:"btn",style:"margin-top:10px",onclick:()=>{const t=ta.value.trim();if(t.length<3){ta.focus();return;}KT.ev("reclamacao",{txt:t.slice(0,600),tela:tela0});KT.flush();ov.remove();toast("Obrigado! Vamos olhar isso com carinho.");}},"Enviar"),
+    el("a",{class:"btn sec",style:"margin-top:10px",href:"https://wa.me/"+WA,target:"_blank",rel:"noopener"},"Prefiro falar no WhatsApp")));
+  document.body.append(ov);setTimeout(()=>ta.focus(),50);
+}
+addEventListener("pagehide",()=>{try{if(cart.length&&!enviou)KT.ev("saiu_carrinho",{itens:cart.length,tela});}catch(e){}KT.flush(true);});
+document.addEventListener("visibilitychange",()=>{if(document.hidden)KT.flush(true);});
+function toca(vezes){try{somOk();if(!AC)return;for(let k=0;k<(vezes||1);k++)[0,.18,.36].forEach((d,i)=>{const t=AC.currentTime+k*.9+d,o=AC.createOscillator(),g=AC.createGain();o.frequency.value=[880,1108,1318][i];g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.5,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.3);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.32);});}catch(e){}}
+function telaLigada(on){try{if(on&&"wakeLock" in navigator&&!wl&&!document.hidden)navigator.wakeLock.request("screen").then(x=>{wl=x;x.addEventListener("release",()=>wl=null);}).catch(()=>{});if(!on&&wl){wl.release();wl=null;}}catch(e){}}
+function alertaPronto(){try{navigator.vibrate&&navigator.vibrate([500,200,500,200,800]);}catch(e){}toca(3);document.title="PRONTO! Retire no balcão";}
+function drawCheckout(){
+  if(!cart.length){tela="menu";return draw();}
+  const KM=modoKm();
+  const taxa=()=>{if(MODO!=="Delivery")return 0;if(KM)return cot?+cot.taxa:0;const b=(L.bairros||[]).find(x=>x.n===cli.bairro);return b?+b.t:0;};
+  const totEl=el("span",{}),taxEl=el("span",{});
+  const premEl=el("div",{class:"sum",style:"color:var(--ok);font-weight:800",hidden:""},el("span",{},"Lanche grátis (10 selos)"),el("span",{},""));
+  const recalc=()=>{taxEl.textContent=MODO==="Delivery"?(KM?(cot?brl(cot.taxa)+" · "+kmTxt(cot.km):"calcule abaixo"):(cli.bairro?brl(taxa()):"escolha o bairro")):"";const pd=premioDesc();if(premEl){premEl.hidden=!pd;if(pd)premEl.lastChild.textContent="− "+brl(pd.p);}totEl.textContent=brl(sub()+taxa()-(pd?pd.p:0));};
+  const lista=el("div",{},...cart.map((i,ix)=>el("div",{class:"row"},
+    el("div",{class:"n"},el("b",{},i.n+(i.combo?" + combo":"")),
+      (i.adic||[]).length?el("div",{class:"mut",style:"font-size:14px"},"Adicionais: "+i.adic.join(", ")):"",
+      i.obs?el("div",{class:"mut",style:"font-size:14px"},"Obs.: "+i.obs):"",
+      el("div",{style:"font-weight:700;margin-top:2px"},brl(precoLinha(i)))),
+    el("div",{class:"q"},el("button",{"aria-label":"Menos",onclick:()=>{i.q--;if(i.q<1)cart.splice(ix,1);salvaCart();drawCheckout();}},"−"),el("b",{},String(i.q)),el("button",{"aria-label":"Mais",onclick:()=>{if(i.q<20)i.q++;salvaCart();drawCheckout();}},"+")))));
+  const inp=(k,ph,type,extra)=>el("input",Object.assign({type:type||"text",placeholder:ph,value:cli[k]||"",oninput:e=>{cli[k]=e.target.value;ls.set("kv_cli",cli);}},extra||{}));
+  const campos=[el("div",{class:"lbl"},"Seu nome"),inp("nome","Nome",null,{maxlength:"40",autocomplete:"name"})];
+  if(MODO==="Balcão"){const lv=el("div",{class:"pgs"},...[["Comer aqui",false],["Para levar",true]].map(([t,v])=>el("button",{class:levar===v?"on":"",onclick:()=>{levar=v;[...lv.children].forEach((b,i)=>b.className=(i===1)===v?"on":"");}},t)));
+    campos.push(el("div",{class:"lbl"},"Vai comer aqui ou levar?"),lv);
+    const wz=el("input",{type:"tel",inputmode:"tel",placeholder:"(43) 99999-9999",maxlength:"20",autocomplete:"off",value:foneAviso});wz.oninput=()=>{foneAviso=wz.value;};
+    campos.push(el("div",{class:"lbl"},"WhatsApp para avisar quando ficar pronto"),wz,
+      el("p",{class:"privado"},"Opcional. Usamos para te avisar quando o pedido ficar pronto."));}
+  if(MODO==="Delivery"&&KM){
+    const res=el("div",{class:"mut",style:"margin:6px 0 2px;font-weight:700"},cot?"Entrega: "+kmTxt(cot.km)+" · "+brl(cot.taxa):"");
+    const inv=()=>{if(cot&&!cot.gps){cot=null;ls.del("kv_cot");res.textContent="";recalc();}};
+    const inpE=(k,ph,extra)=>el("input",Object.assign({type:"text",placeholder:ph,value:cli[k]||"",oninput:e=>{cli[k]=e.target.value;ls.set("kv_cli",cli);inv();}},extra||{}));
+    const ruaIn=inpE("rua","Rua ou avenida",{maxlength:"100",autocomplete:"address-line1"});
+    const numIn=el("input",{type:"text",inputmode:"numeric",placeholder:"Número",value:cli.num||"",maxlength:"10",oninput:e=>{cli.num=e.target.value;ls.set("kv_cli",cli);}});
+    const bairroIn=inpE("bairroTxt","Bairro",{maxlength:"60"});
+    const bt=el("button",{class:"btn sec",style:"margin-top:8px",onclick:()=>cota({endereco:[(cli.rua||"").trim(),(cli.num||"").trim(),(cli.bairroTxt||"").trim()].filter(Boolean).join(", ")},bt,res,recalc)},"Calcular entrega pelo endereço");
+    const gps=el("button",{class:"btn",style:"margin-top:8px",onclick:()=>{if(!navigator.geolocation){res.textContent="Seu celular não liberou a localização. Digite o endereço.";return;}gps.disabled=true;gps.textContent="Buscando sua localização…";
+      navigator.geolocation.getCurrentPosition(p=>{gps.disabled=false;gps.textContent="Usar minha localização";cota({lat:p.coords.latitude,lng:p.coords.longitude},bt,res,recalc).then(j=>{if(!j)return;
+        if(j.rua){cli.rua=j.rua;ruaIn.value=j.rua;}if(j.bairro){cli.bairroTxt=j.bairro;bairroIn.value=j.bairro;}ls.set("kv_cli",cli);
+        res.append(el("div",{style:"font-weight:400;font-size:13px;margin-top:2px"},j.rua?"Confira a rua e digite o número.":"Digite a rua e o número."));numIn.focus();});},()=>{gps.disabled=false;gps.textContent="Usar minha localização";res.textContent="Não foi possível pegar sua localização. Digite o endereço e toque em Calcular entrega.";},{enableHighAccuracy:true,timeout:15000,maximumAge:60000});}},"Usar minha localização");
+    campos.push(el("div",{class:"lbl"},"Telefone / WhatsApp"),inp("fone","(43) 99999-9999","tel",{inputmode:"tel",autocomplete:"tel",maxlength:"20"}),
+      el("div",{class:"lbl"},"Endereço de entrega"),
+      gps,res,ruaIn,
+      el("div",{style:"display:grid;grid-template-columns:1fr 2fr;gap:8px"},numIn,bairroIn),
+      el("input",{type:"text",placeholder:"Apartamento: bloco e nº do apto · ou ponto de referência",value:cli.compl||"",maxlength:"80",oninput:e=>{cli.compl=e.target.value;ls.set("kv_cli",cli);}}),
+      bt,
+      el("div",{class:"mut",style:"font-size:13px;margin-top:4px"},"A taxa é calculada pela distância de carro até a KEVÃO. Se estiver no local da entrega, use sua localização: é o jeito mais preciso."));
+  }else if(MODO==="Delivery"){
+    campos.push(el("div",{class:"lbl"},"Telefone / WhatsApp"),inp("fone","(43) 99999-9999","tel",{inputmode:"tel",autocomplete:"tel",maxlength:"20"}),
+      el("div",{class:"lbl"},"Bairro"),
+      el("select",{onchange:e=>{cli.bairro=e.target.value;ls.set("kv_cli",cli);recalc();}},el("option",{value:""},"Escolha o bairro…"),...(L.bairros||[]).map(b=>{const o=el("option",{value:b.n},b.n+" · entrega "+brl(b.t));if(b.n===cli.bairro)o.selected=true;return o;})),
+      el("div",{class:"mut",style:"font-size:13px"},"Seu bairro não está na lista? Chame a gente no ",el("a",{href:"https://wa.me/"+WA,target:"_blank",rel:"noopener",style:"color:var(--ac)"},"WhatsApp"),"."),
+      el("div",{class:"lbl"},"Endereço"),
+      el("textarea",{placeholder:"Rua, número, complemento e ponto de referência",maxlength:"200",autocomplete:"street-address",oninput:e=>{cli.end=e.target.value;ls.set("kv_cli",cli);}},cli.end||""));
+  }
+  const troco=el("div",{class:"mut",style:"font-size:14px;margin-top:8px;padding:10px 12px;border:1px dashed var(--ac);border-radius:10px"},"Pagando em dinheiro, o troco é devolvido via Pix.");
+  troco.hidden=pag!=="Dinheiro";
+  const pixInfo=el("div",{});
+  const drawPix=()=>{pixInfo.replaceChildren(...(pag==="Pix"&&L.pix&&L.pix.chave?[pixBox()]:[]));};
+  const pgs=el("div",{class:"pgs"},...["Crédito","Débito","Pix","Dinheiro"].map(t=>el("button",{class:t===pag?"on":"",onclick:()=>{pag=t;cli.pag=t;ls.set("kv_cli",cli);[...pgs.children].forEach(b=>b.className=b.textContent===t?"on":"");troco.hidden=t!=="Dinheiro";drawPix();}},t)));
+  const obsG=el("textarea",{placeholder:"Alguma observação para o pedido?",maxlength:"200",style:"min-height:56px"});
+  const erro=el("div",{class:"err",hidden:""});
+  const MESES=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+  const clubeExtra=el("div",{});
+  const montaExtra=()=>{if(!clubeOn){clubeExtra.replaceChildren();return;}
+    const sd=el("select",{onchange:e=>{nascD=e.target.value;}},el("option",{value:""},"Dia"),...Array.from({length:31},(_,i)=>el("option",Object.assign({value:String(i+1)},nascD===String(i+1)?{selected:""}:{}),String(i+1))));
+    const sm=el("select",{onchange:e=>{nascM=e.target.value;}},el("option",{value:""},"Mês"),...MESES.map((m,i)=>el("option",Object.assign({value:String(i+1)},nascM===String(i+1)?{selected:""}:{}),m)));
+    const fz=MODO==="Mesa"?[el("div",{class:"lbl"},"Seu WhatsApp"),el("input",{type:"tel",inputmode:"tel",placeholder:"(43) 99999-9999",maxlength:"20",value:clubeFone,oninput:e=>{clubeFone=e.target.value;}})]:
+      MODO==="Balcão"?[el("p",{class:"privado"},"Use o campo de WhatsApp lá em cima.")]:[];
+    clubeExtra.replaceChildren(...fz,el("div",{class:"lbl"},"Data de nascimento (opcional)"),el("div",{class:"nasc"},sd,sm));};
+  const clube=CLUBE?el("div",{class:"clube"},el("b",{},"Você está no Clube Kevão ✓"),el("div",{class:"mut",style:"font-size:14px"},premioDesc()?"O seu lanche grátis já foi descontado no total.":"Cada lanche deste pedido vira 1 selo quando for entregue. Com 10, um lanche é por nossa conta.")):
+    el("div",{class:"clube"},
+      el("label",{class:"ck"},el("input",{type:"checkbox",checked:clubeOn,onchange:e=>{clubeOn=e.target.checked;montaExtra();}}),el("span",{},"Quero entrar no Clube Kevão")),
+      el("div",{class:"mut",style:"font-size:14px;margin:6px 0 0 32px"},"A cada 10 lanches, 1 é por nossa conta. E estamos testando promoções para dias especiais, como o seu aniversário. É opcional, não pedimos CPF e não mandamos spam."),
+      clubeExtra);
+  montaExtra();
+  $("app").replaceChildren(
+    el("button",{class:"back",onclick:()=>voltaMenu()},"‹ Voltar ao cardápio"),
+    el("h2",{},"Seu pedido"),lista,
+    el("div",{class:"sum"},el("span",{},"Subtotal"),el("span",{},brl(sub()))),
+    MODO==="Delivery"?el("div",{class:"sum"},el("span",{},"Entrega"),taxEl):"",
+    premEl,el("div",{class:"tot"},el("span",{},"Total"),totEl),
+    ...campos,
+    el("div",{class:"lbl"},MODO==="Delivery"?"Pagamento na entrega":"Pagamento"),MODO==="Delivery"?el("div",{class:"mut",style:"font-size:14px;margin:-2px 0 8px"},"Você paga quando o pedido chegar: crédito ou débito na maquininha (o motoqueiro leva) ou Pix."):"",pgs,troco,pixInfo,
+    MODO==="Mesa"?el("div",{class:"mut",style:"font-size:14px;margin-top:6px"},"Você paga no caixa ou para quem levar seu pedido."):"",
+    MODO==="Balcão"?el("div",{class:"mut",style:"font-size:14px;margin-top:6px"},"Você paga no caixa. Assim que o pagamento for confirmado, seu pedido vai pra chapa."):"",
+    el("div",{class:"lbl"},"Observação geral"),obsG,clube,erro,el("button",{class:"ajuda",onclick:()=>abreAjuda("checkout")},"Algo não funcionou? Conte pra gente"));
+  recalc();drawPix();
+  const txtEnv=fase().fase==="espera"?"Entrar na lista de espera":"Enviar pedido";
+  drawBar([el("span",{},txtEnv),totEl.cloneNode(true)],async()=>{
+    if(enviando)return;erro.hidden=true;
+    const fone=(cli.fone||"").replace(/\D/g,"");
+    const avDig=foneAviso.replace(/\D/g,"");somOk();
+    const cfDig=MODO==="Mesa"?clubeFone.replace(/\D/g,""):MODO==="Balcão"?avDig:fone;
+    const falta=(cli.nome||"").trim().length<2?"NOME":clubeOn&&!CLUBE&&cfDig.length<10?"CLUBEFONE":MODO==="Balcão"&&avDig&&avDig.length<10?"FONE":MODO==="Delivery"&&fone.length<10?"FONE":MODO==="Delivery"&&!KM&&!cli.bairro?"BAIRRO":MODO==="Delivery"&&endCli(KM).length<5?"END":MODO==="Delivery"&&KM&&!(cli.num||"").trim()?"NUM":MODO==="Delivery"&&KM&&!cot?"COTACAO":!pag?"PAG":"";
+    if(falta){erro.textContent=ERR[falta];erro.hidden=false;erro.scrollIntoView({behavior:"smooth",block:"center"});return;}
+    enviando=true;$("barBtn").disabled=true;$("barBtn").firstChild.textContent="Enviando…";
+    try{
+      const r=await rpc("pedido_cliente",{p:{tipo:MODO,levar:MODO==="Balcão"&&levar?"true":"",mesa:MESA?String(MESA):"",cliente:cli.nome.trim(),fone:MODO==="Balcão"?avDig:fone,bairro:KM?"":(cli.bairro||""),cotacao:KM&&cot?cot.id:"",end:MODO==="Delivery"?endCli(KM):"",pag,troco:pag==="Dinheiro"?"devolver via Pix":"",obs:obsG.value.trim(),itens:cart.map(i=>({n:i.n,q:i.q,combo:!!i.combo,adic:i.adic||[],obs:i.obs||""})),token:CLUBE?(ls.get("kv_clube")||{}).t||"":"",clube:clubeOn&&!CLUBE?{fone:cfDig,nasc:nascD&&nascM?nascD+"/"+nascM:""}:undefined}});
+      enviou=true;KT.ev("enviou",{tot:r.total,n:cart.length});ls.set("kv_ultimo",{c:cart.map(i=>({n:i.n,q:i.q,combo:!!i.combo,adic:i.adic||[],obs:i.obs||""})),at:Date.now()});upsellFeito=false;
+      if(r.token){if(!CLUBE)KT.ev("clube_entrou",{niver:!!(nascD&&nascM)});ls.set("kv_clube",{t:r.token});if(CLUBE&&r.premio)CLUBE.selos=Math.max(0,(CLUBE.selos||0)-10);}
+      else if(clubeOn&&!CLUBE&&r.clube===false){toast("Não deu para entrar no clube com esse número.");}
+      KT.flush();
+      ls.set("kv_ped",{id:r.id,total:r.total,pag,at:Date.now(),modo:MODO,nome:cli.nome.trim(),aviso:MODO==="Balcão"&&!!avDig,wa:MODO==="Delivery"?msgWA(r,fone,obsG.value.trim(),KM):""});cart=[];cot=null;ls.del("kv_cot");salvaCart();tela="status";enviando=false;draw();
+    }catch(e){enviando=false;$("barBtn").disabled=false;$("barBtn").firstChild.textContent=txtEnv;
+      const c=String(e.code||"").split(/\s/)[0];KT.ev("erro_envio",{c});erro.textContent=ERR[c]||"Não foi possível enviar o pedido. Tente de novo.";erro.hidden=false;erro.scrollIntoView({behavior:"smooth",block:"center"});
+      if(c==="COTACAO"){cot=null;ls.del("kv_cot");recalc();}
+      if(c==="ITEM"||c==="ADIC"||c==="FECHADO"){try{L=await rpc("loja_publica");L.off=L.off||[];limpaCart();}catch(_){}if(c==="FECHADO"&&fase().fase!=="aberto"&&fase().fase!=="espera"){tela="menu";draw();}}}
+  });
+  $("barBtn").lastChild.replaceWith(totEl.cloneNode(true));
+  const obsSync=()=>{$("barBtn").lastChild.textContent=totEl.textContent;};new MutationObserver(obsSync).observe(totEl,{childList:true,characterData:true,subtree:true});
+}
+function msgWA(r,fone,obsGeral,KM){
+  const b=(L.bairros||[]).find(x=>x.n===cli.bairro),taxa=KM?(cot?+cot.taxa:0):(b?+b.t:0),end=endCli(KM);
+  const T=[fase().fase==="espera"?"*Pedido pelo site · KEVÃO · LISTA DE ESPERA*":"*Pedido pelo site · KEVÃO*","Código: "+String(r.id).slice(-5).toUpperCase(),"","*Cliente:* "+cli.nome.trim(),"*Telefone:* "+fone,KM?"*Distância:* "+(cot?kmTxt(cot.km):"")+" (entrega "+brl(taxa)+")":"*Região:* "+(cli.bairro||"")+" (entrega "+brl(taxa)+")","*Endereço:* "+end,"Mapa: https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(end+(/londrina/i.test(end)?"":", Londrina - PR")),"","*Itens:*"];
+  cart.forEach(i=>{T.push("• "+i.q+"× "+i.n+(i.combo?" + combo":"")+" · "+brl(precoLinha(i)));if((i.adic||[]).length)T.push("   adicionais: "+i.adic.join(", "));if(i.obs)T.push("   obs.: "+i.obs);});
+  T.push("","Subtotal: "+brl(sub()),"Entrega: "+brl(taxa),"*Total: "+brl(r.total)+"*","*Pagamento na entrega:* "+pag+(pag==="Dinheiro"?" (troco devolvido via Pix)":pag==="Pix"?"":" (levar maquininha)"));
+  if(obsGeral)T.push("*Obs.:* "+obsGeral);
+  return "https://wa.me/"+WA+"?text="+encodeURIComponent(T.join("\n"));
+}
+let cot=(()=>{const c=ls.get("kv_cot");return c&&Date.now()-c.at<90*60e3?c:null;})();
+const kmTxt=k=>String(k).replace(".",",")+" km";
+const endCli=KM=>KM?[[(cli.rua||"").trim(),(cli.num||"").trim()].filter(Boolean).join(", "),(cli.bairroTxt||"").trim(),(cli.compl||"").trim()].filter(Boolean).join(" - "):(cli.end||"").trim();
+async function cota(body,bt,res,recalc){let ok=null;
+  if(body.endereco!==undefined&&body.endereco.length<5){res.textContent="Digite a rua com número e o bairro.";return;}
+  bt.disabled=true;const t0=bt.textContent;bt.textContent="Calculando…";res.textContent="";
+  try{
+    const r=await fetch(SB+"/functions/v1/taxa-entrega",{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify(body)});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||!j.id){const m={SEM_CHAVE:"O cálculo automático está indisponível agora. Peça pelo WhatsApp.",NAO_ACHOU:"Não encontramos esse endereço. Confira a rua, o número e o bairro, ou use sua localização.",LIMITE:"Muitas tentativas. Aguarde um pouco ou peça pelo WhatsApp.",ENDERECO:"Digite a rua com número e o bairro."};res.textContent=m[j.erro]||"Não foi possível calcular agora. Tente de novo.";}
+    else{cot={id:j.id,km:j.km,taxa:j.taxa,at:Date.now(),gps:body.lat!==undefined};ok=j;ls.set("kv_cot",cot);res.replaceChildren("Entrega: "+kmTxt(j.km)+" · "+brl(j.taxa),j.local&&!/^GPS/.test(j.local)?el("div",{style:"font-weight:400;font-size:13px;margin-top:2px"},"Endereço encontrado: "+j.local+(j.aproximado?" (aproximado; confira o número)":"")):"");}
+  }catch(e){res.textContent="Sem conexão. Verifique a internet e tente de novo.";}
+  bt.disabled=false;bt.textContent=t0;recalc();return ok;
+}
+function pixBox(){
+  const k=L.pix.chave;const b=el("button",{onclick:async()=>{try{await navigator.clipboard.writeText(k);b.textContent="Copiado!";}catch(e){b.textContent="Copie ao lado";}setTimeout(()=>b.textContent="Copiar",2000);}},"Copiar");
+  return el("div",{},el("div",{class:"pix"},el("code",{},k),b),L.pix.nome?el("div",{class:"mut",style:"font-size:14px;margin-top:4px"},"Em nome de "+L.pix.nome):"");
+}
+
+/* ---------- acompanhamento ---------- */
+let poll=null;
+async function drawStatus(){
+  $("bar").hidden=true;
+  const st=ls.get("kv_ped");if(!st){tela="menu";return draw();}
+  let s=null;try{s=await rpc("pedido_status",{p_id:st.id});}catch(e){}
+  const ST={online:[1,"Aguardando a loja confirmar","Seu pedido chegou. Já já confirmamos."],novo:[2,"Pedido confirmado!","Já está na fila da cozinha."],preparo:[3,"Em preparo","Seu pedido está na chapa."],pronto:[4,st.modo==="Mesa"?"Pronto!":"Pronto!",st.modo==="Mesa"?"Já vamos levar até a sua mesa.":"Separando para a entrega."],nocaixa:[4,"Pronto!",st.modo==="Mesa"?"Seu pedido está pronto.":"Saiu para entrega."],entregue:[5,"Entregue","Bom apetite! Obrigado pela preferência."],recusado:[0,"Pedido não confirmado","Não conseguimos aceitar este pedido. Chame a gente no WhatsApp."],cancelado:[0,"Pedido cancelado","Fale com a gente no WhatsApp se precisar."]};
+  let [n,t,d]=s&&ST[s.status]?ST[s.status]:[1,"Pedido enviado","Acompanhe por aqui."];
+  if(s&&s.status==="nocaixa"&&s.moto){t="Saiu para entrega";d="O motoqueiro está a caminho.";}
+  if(st.modo==="Balcão"&&s){
+    const nm=String(st.nome||"").trim().split(/\s+/)[0];
+    const cm=s.comanda?String(s.comanda):"";
+    if(s.status==="online"){t=(nm?nm+", agora":"Agora")+" é só pagar no caixa";d="Passe no caixa, pague "+brl(s.total)+" (diga: pedido "+(nm?"de "+nm:"do balcão")+") e pegue a sua comanda. Depois é só escolher sua mesa: quando a comanda tocar e acender, seu lanche está pronto.";}
+    else if(s.status==="novo"||s.status==="preparo"){t="Pagamento confirmado"+(nm?", "+nm:"")+"!";d="Seu pedido #"+(s.num||"")+" já está "+(s.status==="novo"?"na fila da cozinha":"na chapa")+". "+(cm?"Fique com a comanda "+cm+": quando ela tocar e acender, retire no balcão.":"Quando ficar pronto, retire no balcão.");}
+    else if(s.status==="pronto"||s.status==="nocaixa"){t=(nm?nm+", seu":"Seu")+" pedido está pronto!";d="Pedido #"+(s.num||"")+": "+(cm?"traga a comanda "+cm+" e ":"")+"retire no balcão. Bom apetite!";}}
+  if(s&&s.status==="online"&&s.espera){const F=s.fase||{};t="Você está na lista de espera";d=(s.pos?"Seu pedido é o "+s.pos+"º da fila. ":"")+"Abrimos às "+hh(F.abre||"18:30")+" e, assim que a gente chegar, ele vai direto pra chapa.";}
+  const ent=s&&(s.status==="entregue"||s.entregueEm);
+  if(ent){n=5;t="Entregue! Bom apetite";d="Obrigado pela preferência! Se curtir, posta nos stories e marca a gente no @"+IG+". Nós amamos repostar!";}
+  const fim=s&&(ent||["recusado","cancelado"].includes(s.status));
+  const balc=st.modo==="Balcão",pronto=balc&&s&&!ent&&(s.status==="pronto"||(s.status==="nocaixa"&&!s.moto));
+  if(pronto&&!st.alertou){st.alertou=true;ls.set("kv_ped",st);alertaPronto();}
+  if(!pronto&&document.title.startsWith("PRONTO"))document.title="KEVÃO Hamburgueria · Faça seu pedido";
+  telaLigada(balc&&!fim);
+  const pv=previsao(s,st);
+  const premio=s&&s.premio?el("div",{class:"mut",style:"color:var(--ok);font-weight:800;margin-top:4px"},"Lanche grátis aplicado: "+s.premio+" (− "+brl(s.premioValor)+")"):"";
+  const avaliou=s&&(s.avaliado||st.avaliou);
+  const aval=ent&&s&&!avaliou?(()=>{const box=el("div",{class:"card",style:"margin-top:0"});
+    const desenha=()=>{const est=el("div",{class:"estrelas"},...[1,2,3,4,5].map(i=>el("button",{class:i<=avNota?"on":"","aria-label":i+" estrela"+(i>1?"s":""),onclick:()=>{avNota=i;desenha();}},"★")));
+      const ta=el("textarea",{maxlength:"500",placeholder:avNota&&avNota<=3?"O que podemos melhorar? (opcional)":"Quer contar mais? (opcional)",oninput:e=>{avTxt=e.target.value;},style:"width:100%;min-height:70px;border:1px solid var(--bd);border-radius:10px;padding:10px;font:inherit;box-sizing:border-box"});ta.value=avTxt;
+      const env=el("button",{class:"btn",style:"margin-top:10px",onclick:async()=>{env.disabled=true;env.textContent="Enviando…";
+        try{await rpc("avaliar",{p_id:st.id,p_nota:avNota,p_texto:avTxt.trim()});}catch(e){if(String(e.code||"")==="REDE"){env.disabled=false;env.textContent="Enviar avaliação";toast("Sem internet. Tente de novo.");return;}}
+        KT.ev("avaliou",{nota:avNota});st.avaliou=avNota;ls.set("kv_ped",st);
+        box.replaceChildren(el("div",{style:"font-weight:800;font-size:18px"},avNota>=4?"Obrigado! Isso deixa a gente muito feliz.":"Obrigado pela sinceridade!"),
+          el("div",{class:"mut",style:"margin-top:4px"},avNota>=4?"Se puder, conta pros amigos: poste nos stories e marque o @"+IG+".":"Vamos olhar isso com carinho. Se quiser, fale com a gente no WhatsApp."));}},"Enviar avaliação");
+      box.replaceChildren(el("div",{style:"font-weight:800;font-size:18px"},"Como foi o seu pedido?"),el("div",{class:"mut",style:"font-size:14px"},"Toque nas estrelas. Leva 5 segundos."),est,...(avNota?[ta,env]:[]));};
+    desenha();return box;})():"";
+  const reforco=balc&&!fim&&!pronto?el("div",{class:"aviso"},
+    el("b",{},"Deixe esta tela aberta"),el("div",{},"Quando o pedido ficar pronto, o celular vibra e toca"+(st.aviso?", e você também recebe um aviso no WhatsApp.":".")),
+    el("button",{onclick:()=>{somOk();toca(1);try{navigator.vibrate&&navigator.vibrate(200);}catch(e){}}},"Testar o som do aviso")):"";
+  $("app").replaceChildren(el("div",{class:"card"+(pronto?" pronto":"")},
+    s&&s.num?el("div",{class:"mut",style:"font-weight:700"},"Pedido #"+s.num):el("div",{class:"mut",style:"font-weight:700"},"Seu pedido"),
+    el("div",{class:"stt"},t),el("div",{class:"mut"},d),
+    balc&&s&&s.comanda&&!fim?el("div",{class:"comanda"},el("small",{},"SUA COMANDA"),String(s.comanda)):"",
+    pv?el("div",{class:"eta"},pv.t,el("small",{},pv.d)):"",
+    n?el("div",{class:"steps"},...[1,2,3,4,5].map(i=>el("i",{class:i<=n?"on":""}))):"",
+    el("div",{class:"sum",style:"color:var(--tx);font-weight:700"},el("span",{},"Total"),el("span",{},brl(s?s.total:st.total))),
+    el("div",{class:"mut"},"Pagamento: "+st.pag+(s&&s.pago?" · pago":"")),premio,
+    st.pag==="Pix"&&L&&L.pix&&L.pix.chave&&!(s&&s.pago)?el("div",{style:"margin-top:8px"},el("div",{class:"lbl"},"Chave Pix"),pixBox(),el("div",{class:"mut",style:"font-size:13px;margin-top:6px"},"Depois de pagar, mostre o comprovante na entrega ou no caixa.")):"",
+    el("p",{class:"mut",style:"font-size:13px;margin:14px 0 0"},fim?"":"Esta tela se atualiza sozinha."),reforco),
+    aval,
+    st.wa&&!fim?el("div",{class:"card",style:"border:2px solid #25D366;margin-top:0"},el("div",{style:"font-weight:800;font-size:18px"},"Último passo: confirme pelo WhatsApp"),el("div",{class:"mut",style:"margin:4px 0 12px"},"Toque abaixo e envie a mensagem que já vem pronta com o seu pedido e o endereço."),el("a",{class:"btn",href:st.wa,target:"_blank",rel:"noopener",style:"background:#25D366;color:#10301C"},"Enviar pedido no WhatsApp")):"",
+    ent?el("a",{class:"btn",href:"https://instagram.com/"+IG,target:"_blank",rel:"noopener",style:"margin-top:4px"},"Abrir o @"+IG):"",
+    ent?el("a",{class:"btn sec",href:"https://wa.me/"+WA+"?text="+encodeURIComponent("Feedback do pedido"+(s&&s.num?" #"+s.num:"")+": "),target:"_blank",rel:"noopener",style:"margin-top:10px"},"Deixar um feedback no WhatsApp"):
+    el("a",{class:"btn sec",href:"https://wa.me/"+WA,target:"_blank",rel:"noopener",style:"margin-top:4px"},"Falar no WhatsApp"),
+    el("button",{class:"btn",style:"margin-top:10px",onclick:()=>{ls.del("kv_ped");avNota=0;avTxt="";clearInterval(poll);poll=null;tela="menu";draw();}},fim?"Fazer novo pedido":"Fazer outro pedido"),
+    st.modo==="Mesa"?"":botaoInstalar());
+  clearInterval(poll);poll=fim?null:setInterval(()=>{if(!document.hidden&&tela==="status")drawStatus();},st.modo==="Balcão"?6000:10000);
+}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&tela==="status")drawStatus();});
+init();
+</script>
+</body></html>

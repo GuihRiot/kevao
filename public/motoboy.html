@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<!-- Ícone: moto do Font Awesome Free (fontawesome.com), licença CC BY 4.0 -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F1B18">
+<title>KEVÃO · Motoqueiro</title>
+<link rel="icon" type="image/png" href="/motoboy-favicon.png">
+<link rel="apple-touch-icon" href="/motoboy-apple-touch-icon.png">
+<link rel="manifest" href="/motoboy-manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kevão Moto">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4EEE3;--card:#EBE0CE;--tx:#1F1B18;--mut:#6E6257;--bd:#D9CBB3;--ac:#AB492B;--onac:#F4EEE3;--dk:#1F1B18;--areia:#D6C3A1;--ok:#3C7A46;--wr:#B23A26}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 Inter,-apple-system,"Helvetica Neue",Arial,sans-serif;padding-bottom:40px}
+button,input{font:inherit;color:inherit}
+header{background:var(--dk);color:var(--onac);padding:12px 16px;border-bottom:3px solid var(--ac);display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:5}
+header img{height:46px;width:auto;display:block}
+header .t{flex:1;font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--areia)}
+header button{background:none;border:1px solid #5C5147;color:var(--areia);border-radius:8px;padding:7px 10px;font-size:13px;font-weight:700;cursor:pointer}
+main{max-width:620px;margin:0 auto;padding:0 16px}
+h2{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:22px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between}
+.mut{color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin:0 0 12px}
+.card.late{border:2px solid var(--wr)}
+.num{font-size:22px;font-weight:800;letter-spacing:-.01em}
+.tempo{font-size:14px;font-weight:700;color:var(--mut);margin:2px 0 10px}
+.late .tempo{color:var(--wr)}
+.end{font-size:19px;font-weight:700;line-height:1.3;margin:4px 0 2px}
+.acts{display:flex;gap:8px;margin:12px 0}
+.acts a{flex:1}
+.btn{display:block;width:100%;border:0;border-radius:12px;background:var(--ac);color:var(--onac);font-weight:800;font-size:17px;padding:16px;cursor:pointer;text-align:center;text-decoration:none;letter-spacing:.02em}
+.btn:disabled{opacity:.55}
+.btn.sec{background:transparent;color:var(--tx);border:1.5px solid var(--tx);padding:13px 10px;font-size:16px}
+.btn.ok{background:var(--ok)}
+.cob{border-radius:10px;padding:10px 12px;margin:8px 0;font-weight:800}
+.cob.pg{background:#DCEAD9;color:var(--ok)}
+.cob.np{background:#F6DCD3;color:var(--wr)}
+.cob small{display:block;font-weight:600;color:var(--tx);margin-top:2px;font-size:14px}
+.its{font-size:14px;color:var(--mut);margin:6px 0}
+.mini{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.mini b{display:block}
+.tag{flex:none;align-self:flex-start;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:999px;background:var(--dk);color:var(--onac)}
+.tag.coz{background:transparent;color:var(--mut);border:1px solid var(--bd)}
+.aviso{background:var(--wr);color:#fff;border-radius:12px;padding:14px;margin:14px 0 0;font-weight:700}
+.fim{background:var(--ok);color:#fff;border-radius:12px;padding:14px;margin:14px 0 0;font-weight:700;text-align:center}
+.cont{display:flex;align-items:center;gap:14px;background:var(--dk);color:var(--onac);border-radius:14px;padding:14px 16px;margin:14px 0 0;cursor:pointer;border:0;width:100%;text-align:left;font:inherit}
+.cont .n{font-size:40px;font-weight:800;line-height:1;color:#fff;min-width:44px;text-align:center}
+.cont small{display:block;color:var(--areia);font-size:13px;font-weight:600;margin-top:2px}
+.cont .vai{margin-left:auto;font-size:22px;color:var(--areia)}
+.lin{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--bd);font-size:17px}.lin b{font-size:24px}
+.vazio{text-align:center;padding:18px 6px;color:var(--mut)}
+.ov{position:fixed;inset:0;z-index:30;background:rgba(31,27,24,.55);display:flex;align-items:flex-end;justify-content:center;animation:fd .2s ease}
+.sheet{background:var(--bg);width:100%;max-width:620px;border-radius:18px 18px 0 0;padding:20px 16px calc(18px + env(safe-area-inset-bottom));animation:up .28s cubic-bezier(.22,.61,.36,1)}
+.sheet h3{margin:0 0 4px;font-size:21px}
+.pgs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 10px}
+.pgs button{border:1.5px solid var(--bd);background:var(--card);border-radius:12px;padding:16px 8px;font-weight:800;font-size:17px;cursor:pointer}
+.pgs button.pref{border-color:var(--ac);background:#F5E2D6}
+@keyframes fd{from{opacity:0}}@keyframes up{from{transform:translateY(40px);opacity:.5}}
+.login{max-width:380px;margin:40px auto 0;padding:0 16px}
+.login input{width:100%;border:1px solid var(--bd);background:#fff;border-radius:10px;padding:14px 12px;font-size:17px;margin:4px 0 12px}
+.login label{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.err{background:#F6DCD3;color:var(--wr);font-weight:700;border-radius:10px;padding:12px;margin:0 0 12px}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--dk);color:var(--onac);padding:12px 18px;border-radius:12px;font-weight:700;z-index:40;max-width:92vw;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.sync{font-size:12px;color:var(--mut);text-align:center;margin:18px 0 0}
+[hidden]{display:none!important}
+</style></head>
+<body>
+<header><img src="/logo.png" alt="KEVÃO"><div class="t">Painel do motoqueiro</div><button id="menu" hidden aria-label="Minhas entregas" title="Minhas entregas" style="font-size:20px;line-height:1;padding:5px 11px">☰</button><button id="sair" hidden>Sair</button></header>
+<main id="app"><div class="vazio">Carregando…</div></main>
+<div id="toast" hidden></div>
+<script>
+const SB="https://rahgwjqdghchkkpydjrh.supabase.co",KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhaGd3anFkZ2hjaGtrcHlkanJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5MjM3MzAsImV4cCI6MjEwOTQ5OTczMH0.Mqmjjah5Jf2G8-c338EOUSv7bcgdJH030xrAMuDszFI";
+const ORIGEM="Av. Saul Elkind, 3665, Londrina - PR";
+const $=id=>document.getElementById(id);
+function el(t,p,...k){const e=document.createElement(t);for(const a in p||{}){if(a==="class")e.className=p[a];else if(a.startsWith("on")||a==="value"||a==="disabled")e[a]=p[a];else e.setAttribute(a,p[a]);}k.flat().forEach(c=>{if(c!==null&&c!==undefined&&c!==""&&c!==false)e.append(c.nodeType?c:document.createTextNode(String(c)));});return e;}
+const brl=n=>(+n||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const ls={get(k){try{return JSON.parse(localStorage.getItem(k)||"null");}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}},del(k){try{localStorage.removeItem(k);}catch(e){}}};
+let toastT=null;function toast(m){const t=$("toast");t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,3500);}
+function beep(){try{const a=new (window.AudioContext||window.webkitAudioContext)();[0,.2,.4].forEach(d=>{const o=a.createOscillator(),g=a.createGain();o.frequency.value=988;g.gain.setValueAtTime(.0001,a.currentTime+d);g.gain.exponentialRampToValueAtTime(.4,a.currentTime+d+.02);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+d+.16);o.connect(g);g.connect(a.destination);o.start(a.currentTime+d);o.stop(a.currentTime+d+.18);});}catch(e){}}
+const vibra=p=>{try{navigator.vibrate&&navigator.vibrate(p);}catch(e){}};
+
+/* ---------- sessão ---------- */
+let sess=ls.get("kv_moto");
+async function auth(path,body){
+  const r=await fetch(SB+"/auth/v1/token?grant_type="+path,{method:"POST",headers:{apikey:KEY,"Content-Type":"application/json"},body:JSON.stringify(body)});
+  const j=await r.json().catch(()=>({}));if(!r.ok)throw Object.assign(new Error(j.error_description||j.msg||"LOGIN"),{status:r.status});
+  sess={at:j.access_token,rt:j.refresh_token,exp:Date.now()+(j.expires_in||3600)*1000};ls.set("kv_moto",sess);return sess;
+}
+async function token(){
+  if(!sess)throw Object.assign(new Error("SEM_SESSAO"),{status:401});
+  if(Date.now()>sess.exp-60000){try{await auth("refresh_token",{refresh_token:sess.rt});}catch(e){if(e.status===400||e.status===401){sess=null;ls.del("kv_moto");}throw e;}}
+  return sess.at;
+}
+async function rpc(fn,body){
+  const t=await token();
+  const r=await fetch(SB+"/rest/v1/rpc/"+fn,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+t,"Content-Type":"application/json"},body:JSON.stringify(body||{})});
+  const x=await r.text();let j=null;try{j=x?JSON.parse(x):null;}catch(e){}
+  if(r.status===401){sess=null;ls.del("kv_moto");throw Object.assign(new Error("SEM_SESSAO"),{status:401});}
+  if(!r.ok)throw Object.assign(new Error((j&&j.message)||"REDE"),{code:(j&&j.message)||"REDE"});
+  return j;
+}
+
+function telaLogin(msg){
+  stopPoll();$("sair").hidden=true;$("menu").hidden=true;
+  const u=el("input",{type:"text",autocomplete:"username",autocapitalize:"none",value:ls.get("kv_moto_u")||"motoboy"}),s=el("input",{type:"password",autocomplete:"current-password",placeholder:"Senha"});
+  const er=el("div",{class:"err"},msg||"");er.hidden=!msg;
+  const b=el("button",{class:"btn",onclick:async()=>{
+    er.hidden=true;b.disabled=true;b.textContent="Entrando…";
+    const us=u.value.trim().toLowerCase();ls.set("kv_moto_u",us);
+    try{await auth("password",{email:us.includes("@")?us:us+"@kevao.local",password:s.value});inicia();}
+    catch(e){b.disabled=false;b.textContent="Entrar";er.textContent=e.status===400?"Usuário ou senha incorretos.":"Sem conexão. Tente de novo.";er.hidden=false;}
+  }},"Entrar");
+  s.onkeydown=e=>{if(e.key==="Enter")b.click();};
+  $("app").replaceChildren(el("div",{class:"login"},el("p",{class:"mut",style:"text-align:center;margin:0 0 20px"},"Entre uma vez e o painel fica salvo neste celular."),er,el("label",{},"Usuário"),u,el("label",{},"Senha"),s,b));
+}
+
+/* ---------- painel ---------- */
+let dados=null,skew=0,poll=null,tick=null,lembrou=ls.get("kv_moto_lemb")||{};
+const agora=()=>Date.now()+skew;
+const hhmm=t=>new Date(t).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+const prevMin=o=>Math.max(15,Math.round(10+(+o.km||3)*3));
+const endTxt=o=>[o.end,o.bairro].filter(Boolean).join(" · ");
+const endMapa=o=>o.end+(/londrina/i.test(o.end||"")?"":", Londrina - PR");
+const mapa=o=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(endMapa(o));
+const fmtFone=f=>{const d=String(f||"").replace(/\D/g,"").replace(/^55(?=\d{10,11}$)/,"");return d.length===11?"("+d.slice(0,2)+") "+d.slice(2,7)+"-"+d.slice(7):d.length===10?"("+d.slice(0,2)+") "+d.slice(2,6)+"-"+d.slice(6):d;};
+const nome=o=>String(o.cliente||"Cliente");
+const itensTxt=o=>(o.itens||[]).map(i=>i.q+"× "+i.n+(i.combo?" + combo":"")).join(", ");
+const naRota=()=>(dados?dados.pedidos:[]).filter(o=>o.moto&&!o.entregueEm&&o.status==="nocaixa");
+
+async function carrega(){
+  try{const r=await rpc("motoboy_painel");dados=r;skew=(r.agora||Date.now())-Date.now();render();lembra();}
+  catch(e){
+    if(e.status===401)return telaLogin("Sua sessão expirou. Entre de novo.");
+    if(e.code==="SEM_ACESSO"){sess=null;ls.del("kv_moto");return telaLogin("Este usuário não tem acesso ao painel do motoqueiro.");}
+    const s=$("sync");if(s){s.textContent="Sem conexão. Tentando de novo…";s.style.color="var(--wr)";}
+  }
+}
+function stopPoll(){clearInterval(poll);clearInterval(tick);poll=tick=null;}
+function inicia(){
+  $("sair").hidden=false;$("menu").hidden=false;stopPoll();
+  if(!dados)$("app").replaceChildren(el("div",{class:"vazio"},"Carregando entregas…"));
+  carrega();poll=setInterval(()=>{if(!document.hidden)carrega();},15000);
+  tick=setInterval(()=>{if(dados&&!document.hidden&&!document.querySelector(".ov")){render();lembra();}},30000);
+}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&sess&&poll)carrega();});
+const dataBR=t=>new Date(t).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"});
+function abreMenu(){
+  const c=(dados&&dados.contagem)||{};
+  const ov=el("div",{class:"ov"}),fecha=()=>ov.remove();ov.onclick=e=>{if(e.target===ov)fecha();};
+  ov.append(el("div",{class:"sheet"},
+    el("div",{style:"font-weight:800;font-size:20px;margin-bottom:4px"},"Minhas entregas"+(dados&&dados.nome?" · "+dados.nome:"")),
+    el("div",{class:"mut",style:"font-size:14px;margin-bottom:6px"},c.ultimoRepasse?"Contando desde o último acerto, em "+dataBR(c.ultimoRepasse)+".":"Contando desde a primeira entrega."),
+    el("div",{class:"lin"},el("span",{},"Desde o último acerto"),el("b",{},String(c.desde||0))),
+    el("div",{class:"lin"},el("span",{},"Valor a receber"),el("b",{},brl(c.valor))),
+    el("div",{class:"lin"},el("span",{},"Hoje"),el("b",{},String(c.hoje||0))),
+    el("div",{class:"lin"},el("span",{},"Este mês"),el("b",{},String(c.mes||0))),
+    el("div",{class:"lin"},el("span",{},"Total desde o início"),el("b",{},String(c.total||0))),
+    c.ultimoRepasse?el("p",{class:"mut",style:"font-size:14px;margin:12px 0 0"},"Último acerto: "+dataBR(c.ultimoRepasse)+" · "+(c.ultimoQtd||0)+" entrega(s) · "+brl(c.ultimoValor)):"",
+    el("p",{class:"mut",style:"font-size:13px;margin:10px 0 0"},c.modo==="fixo"?"Valor por entrega definido pela loja.":"Valor = soma das taxas de entrega cobradas."),
+    el("button",{class:"btn",style:"margin-top:16px",onclick:fecha},"Fechar")));
+  document.body.append(ov);
+}
+$("menu").onclick=abreMenu;
+$("sair").onclick=()=>{if(!confirmaSair())return;sess=null;ls.del("kv_moto");dados=null;telaLogin();};
+function confirmaSair(){const b=$("sair");if(b.dataset.c){delete b.dataset.c;b.textContent="Sair";return true;}b.dataset.c=1;b.textContent="Sair mesmo?";setTimeout(()=>{delete b.dataset.c;b.textContent="Sair";},3000);return false;}
+
+function lembra(){
+  const late=naRota().filter(o=>o.saiuEm&&(agora()-o.saiuEm)/60000>prevMin(o));
+  const novos=late.filter(o=>!lembrou[o.id]||agora()-lembrou[o.id]>5*60000);
+  if(novos.length){novos.forEach(o=>lembrou[o.id]=agora());ls.set("kv_moto_lemb",lembrou);beep();vibra([300,150,300,150,300]);
+    toast(novos.length>1?novos.length+" entregas passaram do tempo previsto":"Entrega #"+novos[0].num+" passou do tempo previsto");}
+  document.title=late.length?"("+late.length+") Confirme a entrega · KEVÃO":"KEVÃO · Motoqueiro";
+}
+
+function render(){
+  if(!dados)return;
+  const ps=dados.pedidos||[],rota=naRota();
+  const prox=ps.filter(o=>!o.moto&&["novo","preparo","pronto"].includes(o.status));
+  const feitos=ps.filter(o=>o.entregueEm).sort((a,b)=>b.entregueEm-a.entregueEm);
+  const late=rota.filter(o=>o.saiuEm&&(agora()-o.saiuEm)/60000>prevMin(o));
+  const blocos=[],ct=dados.contagem;
+  if(ct)blocos.push(el("button",{class:"cont",onclick:abreMenu},el("span",{class:"n"},String(ct.desde||0)),el("span",{},el("b",{},(ct.desde===1?"entrega":"entregas")+" desde o último acerto"),el("small",{},"A receber: "+brl(ct.valor)+" · Hoje: "+(ct.hoje||0))),el("span",{class:"vai"},"›")));
+  if(late.length)blocos.push(el("div",{class:"aviso"},late.length>1?"Duas ou mais entregas passaram do tempo previsto. Se já entregou, confirme abaixo.":"A entrega #"+late[0].num+" passou do tempo previsto. Se já entregou, confirme abaixo."));
+  blocos.push(el("h2",{},el("span",{},"Sua rota agora"),el("span",{},rota.length?String(rota.length):"")));
+  if(!rota.length){
+    blocos.push(feitos.length&&agora()-feitos[0].entregueEm<20*60000?el("div",{class:"fim"},"Rota concluída! Pode voltar para a loja."):el("div",{class:"vazio"},"Nenhuma entrega com você agora."));
+  }else{
+    if(rota.length>1){const ends=rota.map(endMapa),dest=ends[ends.length-1],wp=ends.slice(0,-1).join("|");
+      blocos.push(el("a",{class:"btn sec",style:"margin:0 0 12px",href:"https://www.google.com/maps/dir/?api=1&travelmode=driving&origin="+encodeURIComponent(ORIGEM)+"&destination="+encodeURIComponent(dest)+(wp?"&waypoints="+encodeURIComponent(wp):""),target:"_blank",rel:"noopener"},"Ver a rota completa no mapa ("+rota.length+" paradas)"));}
+    rota.forEach(o=>blocos.push(cardRota(o)));
+  }
+  blocos.push(el("h2",{},el("span",{},"Próximas entregas"),el("span",{},prox.length?String(prox.length):"")));
+  if(!prox.length)blocos.push(el("div",{class:"vazio"},"Nenhuma entrega na cozinha."));
+  else{
+    if(rota.length)blocos.push(el("p",{class:"mut",style:"margin:0 0 6px;font-size:14px"},"Termine e confirme a rota atual para pegar as próximas."));
+    prox.forEach(o=>blocos.push(el("div",{class:"mini"},el("div",{},el("b",{},"#"+(o.num||"")+" · "+nome(o)),el("span",{class:"mut",style:"font-size:14px"},endTxt(o))),
+      el("span",{class:"tag"+(o.status==="pronto"?"":" coz")},o.status==="pronto"?"Pronto":"Na cozinha"))));
+  }
+  blocos.push(el("h2",{},el("span",{},"Entregues hoje"),el("span",{},feitos.length?String(feitos.length):"")));
+  if(!feitos.length)blocos.push(el("div",{class:"vazio"},"Nenhuma ainda."));
+  else feitos.forEach(o=>blocos.push(el("div",{class:"mini"},el("div",{},el("b",{},"#"+(o.num||"")+" · "+nome(o)),el("span",{class:"mut",style:"font-size:14px"},endTxt(o))),
+    el("div",{style:"text-align:right;font-size:14px"},el("b",{},hhmm(o.entregueEm)),o.saiuEm?el("span",{class:"mut"},Math.max(1,Math.round((o.entregueEm-o.saiuEm)/60000))+" min"):""))));
+  blocos.push(el("div",{class:"sync",id:"sync"},"Atualiza sozinho · "+hhmm(agora())+(dados.nome?" · "+dados.nome:"")));
+  const y=window.scrollY;$("app").replaceChildren(...blocos);window.scrollTo(0,y);
+}
+
+function cardRota(o){
+  const min=o.saiuEm?Math.max(0,Math.round((agora()-o.saiuEm)/60000)):null,pv=prevMin(o),late=min!==null&&min>pv;
+  const pref=o.pagPref||o.pag||"";
+  const cob=o.pago?el("div",{class:"cob pg"},"JÁ PAGO"+(o.pag?" ("+o.pag+")":"")+" · NÃO COBRAR")
+    :el("div",{class:"cob np"},"COBRAR "+brl(o.total),el("small",{},pref?(pref+(/Crédito|Débito/.test(pref)?" · leve a maquininha":"")+(o.troco?(/pix/i.test(o.troco)?" · troco devolvido via Pix (não precisa levar troco)":" · troco para R$ "+o.troco):"")):"Pergunte a forma de pagamento"));
+  return el("div",{class:"card"+(late?" late":"")},
+    el("div",{class:"num"},"#"+(o.num||"")+" · "+nome(o)),
+    el("div",{class:"tempo"},min===null?"Saiu agora":(late?"PASSOU DO TEMPO PREVISTO · ":"")+"Saiu "+hhmm(o.saiuEm)+" · há "+min+" min · previsto até "+hhmm(o.saiuEm+pv*60000)),
+    el("div",{class:"end"},o.end||"(sem endereço)"),o.bairro?el("div",{class:"mut"},o.bairro):"",
+    el("div",{class:"acts"},o.end?el("a",{class:"btn sec",href:mapa(o),target:"_blank",rel:"noopener"},"Abrir no mapa"):"",o.fone?el("a",{class:"btn sec",href:"tel:"+String(o.fone).replace(/\D/g,"")},"Ligar"):""),
+    cob,
+    el("div",{class:"its"},itensTxt(o)),o.obs?el("div",{class:"its",style:"color:var(--tx)"},"Obs.: "+o.obs):"",
+    el("button",{class:"btn ok",style:"margin-top:10px",onclick:()=>confirma(o)},"Confirmar entrega"));
+}
+
+function confirma(o){
+  const ov=el("div",{class:"ov"}),fecha=()=>ov.remove();ov.onclick=e=>{if(e.target===ov)fecha();};
+  const envia=async(pag,b)=>{
+    ov.querySelectorAll("button").forEach(x=>x.disabled=true);if(b)b.textContent="Confirmando…";
+    try{await rpc("motoboy_entregue",{p_id:o.id,p_pag:pag||null});fecha();vibra(120);
+      const resta=naRota().filter(x=>x.id!==o.id).length;
+      toast("Entrega #"+(o.num||"")+" confirmada às "+hhmm(agora())+(resta?" · faltam "+resta:" · rota concluída!"));
+      o.entregueEm=agora();render();carrega();}
+    catch(e){ov.querySelectorAll("button").forEach(x=>x.disabled=false);if(b)b.textContent=b.dataset.t;
+      if(e.status===401){fecha();return telaLogin("Sua sessão expirou. Entre de novo.");}
+      const m=ov.querySelector(".err")||el("div",{class:"err"});m.textContent=e.code==="NAO_SAIU"?"Este pedido ainda não saiu da cozinha.":"Não foi possível confirmar. Verifique a internet e tente de novo.";ov.querySelector(".sheet").prepend(m);}
+  };
+  const B=(t,cls,fn)=>{const b=el("button",{class:cls,onclick:()=>fn(b)},t);b.dataset.t=t;return b;};
+  let corpo;
+  if(o.pago){corpo=[el("h3",{},"Confirmar entrega #"+(o.num||"")+"?"),el("p",{class:"mut",style:"margin:0 0 14px"},nome(o)+" · "+(o.end||"")+". Já estava pago."),
+    B("Sim, entreguei","btn ok",b=>envia(null,b)),el("button",{class:"btn sec",style:"margin-top:10px",onclick:fecha},"Voltar")];}
+  else{const ms=["Crédito","Débito","Pix","Dinheiro"],pref=o.pagPref||"";
+    corpo=[el("h3",{},"Entrega #"+(o.num||"")+": como o cliente pagou?"),el("p",{class:"mut",style:"margin:0"},"Valor: "+brl(o.total)+(pref?" · ele escolheu "+pref:"")),
+      el("div",{class:"pgs"},...ms.map(m=>{const b=B(m,m===pref?"pref":"",bb=>envia(m,bb));return b;})),
+      B("Entreguei, mas não recebi (o caixa cobra)","btn sec",b=>envia(null,b)),el("button",{class:"btn sec",style:"margin-top:10px;border-color:transparent",onclick:fecha},"Voltar")];}
+  ov.append(el("div",{class:"sheet"},...corpo));document.body.append(ov);
+}
+
+if(sess)inicia();else telaLogin();
+</script>
+</body></html>
