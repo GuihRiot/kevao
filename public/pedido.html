@@ -40,7 +40,7 @@ main{max-width:640px;margin:0 auto;padding:0 16px}
 h2{font-size:22px;margin:18px 0 8px;letter-spacing:-.01em}
 .it{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:0 0 10px;width:100%;text-align:left;cursor:pointer}
 .it .tx{flex:1;min-width:0}
-.it .fb{order:2;flex:none;width:46px;height:62px;object-fit:contain}.it .fb.gar{height:84px;width:63px;margin:-10px -8px}.it .fb.por{width:88px;height:66px;margin:-6px 0}.it .fb.por.ind{transform:scale(.74)}@media (min-width:700px){.it .fb.por{width:120px;height:90px}.it .fb{height:72px;width:54px}.it .fb.gar{height:100px;width:75px}}.it .add,.it .qt,.it .stp{order:3}
+.it .fb{order:2;flex:none;width:46px;height:62px;object-fit:contain}.it .fb.gar{height:84px;width:63px;margin:-10px -8px}.it .fb.por{width:88px;height:66px;margin:-6px 0}.it .fl{order:2;flex:none;width:84px;height:84px;object-fit:contain;margin:-8px -4px}.flm{display:block;width:190px;height:190px;object-fit:contain;margin:0 auto 4px}@media (min-width:700px){.it .fl{width:104px;height:104px}}.it .fb.por.ind{transform:scale(.74)}@media (min-width:700px){.it .fb.por{width:120px;height:90px}.it .fb{height:72px;width:54px}.it .fb.gar{height:100px;width:75px}}.it .add,.it .qt,.it .stp{order:3}
 .it b{display:block;font-size:17px}
 .it .ds{color:var(--mut);font-size:14px;margin-top:2px}
 .it .pr{font-weight:800;margin-top:6px}
@@ -212,7 +212,7 @@ const DESC={
  "Kevão Bacon":"Pão brioche, carne de 150 g, cheddar, bacon, barbecue, cebola roxa e molho especial.",
  "Kevão Acebolado":"Pão brioche, carne de 150 g, cheddar, cebola caramelizada, cebola crispy, bacon e barbecue.",
  "Kevão Exagerado":"Pão brioche, 2 carnes de 150 g, cheddar, bacon em exagero, barbecue, cebola roxa e molho especial.",
- "X-Burguer":CLASS,"X-Salada":CLASS,"X-Frango":CLASS,"X-Calabresa":CLASS,"X-Bacon":CLASS,
+ "X-Burguer":CLASS,"X-Salada":CLASS,"X-Frango":CLASS,"X-Bacon":CLASS,
  "Combo Casal Bacon":"Para dois. Vem com 2 latas: você escolhe Coca ou Sprite, normal ou zero.","Combo Casal Salada":"Para dois. Vem com 2 latas: você escolhe Coca ou Sprite, normal ou zero.","Combo Casal Misto":"Para dois. Vem com 2 latas: você escolhe Coca ou Sprite, normal ou zero.",
  "Combo Família Bacon":"Vem com 1 Coca de 1 litro: normal ou zero.","Combo Família Salada":"Vem com 1 Coca de 1 litro: normal ou zero.","Combo Família Misto":"Vem com 1 Coca de 1 litro: normal ou zero."
 };
@@ -304,6 +304,7 @@ function drawMenu(){
     x.id==="Lanches"?el("p",{class:"mut",style:"margin:-4px 0 10px;font-size:14px"},"Qualquer lanche vira combo: + "+brl(L.comboAdd)+" com batata e Coca lata."):"",
     ...agrupa(c,x.it).map(y=>y.sg?el("div",{class:"sg"},el("span",{},y.sg),el("span",{},y.pr)):(([n,v])=>{const q=qtdDe(n);
       return el("button",{class:"it",onclick:()=>c==="Lanches"?abreLanche(n):/^Combo (Casal|Família)/.test(n)?abreCombo(n):addSimples(n)},
+        FOTO_LAN[n]?el("img",{class:"fl",src:"lanches/"+FOTO_LAN[n]+".webp",alt:"",loading:"lazy",decoding:"async"}):"",
         FOTO_BEB[n]?el("img",{class:"fb"+(/lata/.test(FOTO_BEB[n])?"":/batata/.test(FOTO_BEB[n])?" por"+(n==="Batata Individual"?" ind":""):" gar"),src:"bebidas/"+FOTO_BEB[n]+".webp",alt:"",loading:"lazy",decoding:"async"}):"",
         el("div",{class:"tx"},el("b",{},n),DESC[n]?el("div",{class:"ds"},DESC[n]):"",el("div",{class:"pr"},brl(v.p),c==="Lanches"?el("small",{},"combo "+brl(v.p+L.comboAdd)):"")),
         c!=="Lanches"&&q?el("span",{class:"stp",onclick:e=>e.stopPropagation()},el("span",{class:"sb",role:"button","aria-label":"Tirar um",onclick:e=>{e.stopPropagation();tiraSimples(n);}},"−"),el("b",{},String(q)),el("span",{class:"sb",role:"button","aria-label":"Pôr mais um",onclick:e=>{e.stopPropagation();addSimples(n);}},"+")):
@@ -372,7 +373,7 @@ function abreLanche(n){
   const pg=el("div",{class:"pg",role:"dialog","aria-label":n},
     el("div",{class:"pgTop"},el("button",{"aria-label":"Voltar ao cardápio",onclick:()=>fechaFolha()},"‹ Voltar"),el("span",{class:"pgNome"},n)),
     el("div",{class:"pgIn"},
-      el("h1",{},n),DESC[n]?el("p",{class:"mut",style:"margin:0 0 6px"},DESC[n]):"",NOCUT.has(n)?el("div",{class:"nocut"},"Não cortamos ao meio."):"",
+      FOTO_LAN[n]?el("img",{class:"flm",src:"lanches/"+FOTO_LAN[n]+".webp",alt:""}):"",el("h1",{},n),DESC[n]?el("p",{class:"mut",style:"margin:0 0 6px"},DESC[n]):"",NOCUT.has(n)?el("div",{class:"nocut"},"Não cortamos ao meio."):"",
       el("div",{class:"pr1"},brl(v.p)),
       el("div",{class:"passo"},el("b",{},"1. Como você quer?"),el("span",{class:"tag"},"Escolha 1")),g1,
       adics().length?el("div",{class:"passo"},el("b",{},"2. Quer adicionais?"),el("span",{class:"tag op"},"Opcional")):"",
@@ -388,6 +389,7 @@ function abreLanche(n){
 }
 /* bebidas em grupos: lata, 1 litro, água */
 /* fotos das bebidas (pasta public/bebidas) */
+const FOTO_LAN={"Kevão Acebolado":"kevao-acebolado","Kevão Exagerado":"kevao-exagerado","Kevão Fit":"kevao-fit","Kevão Bacon":"kevao-bacon","Kevão Burger":"kevao-burger","Tropicália":"tropicalia","X-Bacon":"x-bacon","X-Burguer":"x-burguer","X-Frango":"x-frango","X-Salada":"x-salada"};
 const FOTO_BEB={"Coca-Cola Lata":"coca-lata","Coca Zero Lata":"coca-zero-lata","Sprite Lata":"sprite-lata","Sprite Zero Lata":"sprite-zero-lata","Água sem gás":"agua-sem-gas","Água com gás":"agua-com-gas","Coca-Cola 1L":"coca-1l","Coca Zero 1L":"coca-zero-1l","Suco 330ml":"suco-330","Suco 1 Litro":"suco-1l","Batata":"batata","Batata com Cheddar e Bacon":"batata-cheddar-bacon","Batata Individual":"batata"};
 function agrupa(c,lista){
   if(c!=="Bebidas")return lista;
