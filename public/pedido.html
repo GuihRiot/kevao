@@ -74,7 +74,7 @@ h2{font-size:22px;margin:18px 0 8px;letter-spacing:-.01em}
 .esc .rd{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--mut);position:relative;background:#fff}
 .esc.on .rd{border-color:var(--ac)}.esc.on .rd::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--ac)}
 .esc.ck .rd{border-radius:7px}.esc.ck.on .rd{background:var(--ac)}.esc.ck.on .rd::after{inset:0;background:none;content:"✓";color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:17px}
-.esc .tx{flex:1;display:flex;flex-direction:column}.esc .tx b{font-size:17px}.esc .tx small{color:var(--mut);font-size:14px;margin-top:2px}
+.esc .fa{width:46px;height:46px;object-fit:contain;flex:none;margin:-8px 0}.esc .tx{flex:1;display:flex;flex-direction:column}.esc .tx b{font-size:17px}.esc .tx small{color:var(--mut);font-size:14px;margin-top:2px}
 .esc em{font-style:normal;font-weight:800;white-space:nowrap}
 .obs{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
 .ob{border:1.5px solid var(--bd);background:var(--card);border-radius:999px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}
@@ -368,7 +368,7 @@ function abreLanche(n){
   g1.append(
     escolha(true,"Só o lanche","",brl(v.p),b=>{combo=false;marca(b);upd();}),
     escolha(false,"Combo","Lanche + batata + Coca-Cola lata",brl(v.p+L.comboAdd),b=>{combo=true;marca(b);upd();}));
-  const adicional=([a,p])=>{const b=el("button",{class:"esc ck",type:"button",role:"checkbox","aria-checked":"false",onclick:()=>{const on=!ad.has(a);on?ad.add(a):ad.delete(a);b.classList.toggle("on",on);b.setAttribute("aria-checked",on?"true":"false");upd();}},el("span",{class:"rd"}),el("span",{class:"tx"},el("b",{},a)),el("em",{},"+ "+brl(p)));return b;};
+  const adicional=([a,p])=>{const b=el("button",{class:"esc ck",type:"button",role:"checkbox","aria-checked":"false",onclick:()=>{const on=!ad.has(a);on?ad.add(a):ad.delete(a);b.classList.toggle("on",on);b.setAttribute("aria-checked",on?"true":"false");upd();}},el("span",{class:"rd"}),FOTO_AD[a]?el("img",{class:"fa",src:"adicionais/"+FOTO_AD[a]+".webp",alt:"",loading:"lazy",decoding:"async"}):"",el("span",{class:"tx"},el("b",{},a)),el("em",{},"+ "+brl(p)));return b;};
   const rapidos=["Sem cebola","Sem molho","Sem tomate","Sem alface"].map(t=>{const b=el("button",{class:"ob",type:"button",onclick:()=>{obsCh.has(t)?obsCh.delete(t):obsCh.add(t);b.classList.toggle("on",obsCh.has(t));}},t);return b;});
   const pg=el("div",{class:"pg",role:"dialog","aria-label":n},
     el("div",{class:"pgTop"},el("button",{"aria-label":"Voltar ao cardápio",onclick:()=>fechaFolha()},"‹ Voltar"),el("span",{class:"pgNome"},n)),
@@ -389,6 +389,7 @@ function abreLanche(n){
 }
 /* bebidas em grupos: lata, 1 litro, água */
 /* fotos das bebidas (pasta public/bebidas) */
+const FOTO_AD={"Carne":"carne","Cheddar":"cheddar","Bacon":"bacon","Barbecue":"barbecue","Ovo":"ovo","Alface e Tomate":"alface-tomate","Molho Verde":"molho-verde","Salsicha":"salsicha"};
 const FOTO_LAN={"Kevão Acebolado":"kevao-acebolado","Kevão Exagerado":"kevao-exagerado","Kevão Fit":"kevao-fit","Kevão Bacon":"kevao-bacon","Kevão Burger":"kevao-burger","Tropicália":"tropicalia","X-Bacon":"x-bacon","X-Burguer":"x-burguer","X-Frango":"x-frango","X-Salada":"x-salada"};
 const FOTO_BEB={"Coca-Cola Lata":"coca-lata","Coca Zero Lata":"coca-zero-lata","Sprite Lata":"sprite-lata","Sprite Zero Lata":"sprite-zero-lata","Água sem gás":"agua-sem-gas","Água com gás":"agua-com-gas","Coca-Cola 1L":"coca-1l","Coca Zero 1L":"coca-zero-1l","Suco 330ml":"suco-330","Suco 1 Litro":"suco-1l","Batata":"batata","Batata com Cheddar e Bacon":"batata-cheddar-bacon","Batata Individual":"batata"};
 function agrupa(c,lista){
