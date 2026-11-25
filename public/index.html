@@ -135,6 +135,7 @@ header button{border-radius:6px;font-weight:600}
 .mi .pv{font-weight:800;color:var(--ac);font-size:20px;letter-spacing:-.02em;line-height:1.1}
 .mi .pc{font-size:10.5px;font-weight:700;color:var(--mut);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
 .item.mi.has{border-color:var(--ac);box-shadow:inset 0 0 0 2px var(--ac)}
+.item.mi.cf{padding-right:66px}.mi .fb{position:absolute;right:10px;bottom:8px;height:66px;width:48px;object-fit:contain;object-position:bottom;pointer-events:none}.item.mi.cf em{z-index:1}
 .item.mi.tc{background:var(--ac);color:var(--onac);border-color:var(--ac)}
 .mi.tc .pv,.mi.tc .pc{color:var(--onac)}.mi.tc em{background:var(--acx)}
 .item.mi.tc.has{box-shadow:inset 0 0 0 3px var(--acx)}
@@ -473,6 +474,8 @@ addEventListener("hashchange",()=>{const h=location.hash.slice(1);setView(["cozi
 
 /* ---------- grade e categorias (usadas no caixa e no cliente) ---------- */
 function chips(box,cats,redraw){box.replaceChildren(...cats.map(k=>el("button",{class:k===cat?"on":"",onclick:()=>{cat=k;redraw();}},k)));}
+/* fotos das bebidas (pasta public/bebidas) */
+const FOTO_BEB={"Coca-Cola Lata":"coca-lata","Coca Zero Lata":"coca-zero-lata","Sprite Lata":"sprite-lata","Sprite Zero Lata":"sprite-zero-lata","Água sem gás":"agua-sem-gas","Água com gás":"agua-com-gas","Coca-Cola 1L":"coca-1l","Coca Zero 1L":"coca-zero-1l","Suco 330ml":"suco-330","Suco 1 Litro":"suco-1l"};
 function grid(box,onTap){box.replaceChildren(...list(cat).map(([n,p])=>{const q=qtyOf(n);return el("button",{class:"item"+(q?" has":""),onclick:()=>onTap(n,p)},n,q?el("em",{},String(q)):"",el("small",{},p==null?"valor a confirmar":brl(p)));}));}
 
 /* ---------- caixa ---------- */
@@ -535,8 +538,8 @@ const NOCUT=new Set(["Tropicália","Kevão Exagerado"]);
 function secHd(t,r,id){const a={class:"lbl sech"};if(id)a.id="sec-"+id;return el("div",a,el("span",{},t),el("span",{},r||""));}
 function secBlocks(k){
   const it=itemsOf(k);if(!it.length)return[];
-  const card=([n,p])=>{const q=qtyOf(n),cb=COMBO[n];return el("button",{class:"item mi"+(q?" has":"")+(k==="Combos"?" tc":""),onclick:()=>add(n,p)},
-    q?el("em",{},String(q)):"",el("span",{class:"nmx"},n.replace(/^\+ /,"").replace(/^X-/,"X\u2011")),DESC[n]?el("span",{class:"de"},DESC[n]):"",
+  const card=([n,p])=>{const q=qtyOf(n),cb=COMBO[n],fb=FOTO_BEB[n];return el("button",{class:"item mi"+(q?" has":"")+(k==="Combos"?" tc":"")+(fb?" cf":""),onclick:()=>add(n,p)},
+    fb?el("img",{class:"fb",src:"bebidas/"+fb+".webp",alt:"",loading:"lazy",decoding:"async"}):"",q?el("em",{},String(q)):"",el("span",{class:"nmx"},n.replace(/^\+ /,"").replace(/^X-/,"X\u2011")),DESC[n]?el("span",{class:"de"},DESC[n]):"",
     el("span",{class:"pf"},el("span",{class:"pv"},brl(p)),cb?el("span",{class:"pc"},"Combo "+brl(cb)):""));};
   if(k==="Lanches"){const casa=it.filter(([n])=>!n.startsWith("X-")),x=it.filter(([n])=>n.startsWith("X-"));
     return[secHd("Os lanches da casa","Lanche · Combo",k),el("div",{class:"grid"},...casa.map(card)),...(x.length?[secHd("Clássicos","Todos com hambúrguer"),el("div",{class:"grid"},...x.map(card))]:[])];}

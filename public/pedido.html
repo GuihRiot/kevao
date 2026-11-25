@@ -40,6 +40,7 @@ main{max-width:640px;margin:0 auto;padding:0 16px}
 h2{font-size:22px;margin:18px 0 8px;letter-spacing:-.01em}
 .it{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:0 0 10px;width:100%;text-align:left;cursor:pointer}
 .it .tx{flex:1;min-width:0}
+.it .fb{order:2;flex:none;width:46px;height:62px;object-fit:contain}.it .add,.it .qt,.it .stp{order:3}
 .it b{display:block;font-size:17px}
 .it .ds{color:var(--mut);font-size:14px;margin-top:2px}
 .it .pr{font-weight:800;margin-top:6px}
@@ -303,6 +304,7 @@ function drawMenu(){
     x.id==="Lanches"?el("p",{class:"mut",style:"margin:-4px 0 10px;font-size:14px"},"Qualquer lanche vira combo: + "+brl(L.comboAdd)+" com batata e Coca lata."):"",
     ...agrupa(c,x.it).map(y=>y.sg?el("div",{class:"sg"},el("span",{},y.sg),el("span",{},y.pr)):(([n,v])=>{const q=qtdDe(n);
       return el("button",{class:"it",onclick:()=>c==="Lanches"?abreLanche(n):/^Combo (Casal|Família)/.test(n)?abreCombo(n):addSimples(n)},
+        FOTO_BEB[n]?el("img",{class:"fb",src:"bebidas/"+FOTO_BEB[n]+".webp",alt:"",loading:"lazy",decoding:"async"}):"",
         el("div",{class:"tx"},el("b",{},n),DESC[n]?el("div",{class:"ds"},DESC[n]):"",el("div",{class:"pr"},brl(v.p),c==="Lanches"?el("small",{},"combo "+brl(v.p+L.comboAdd)):"")),
         c!=="Lanches"&&q?el("span",{class:"stp",onclick:e=>e.stopPropagation()},el("span",{class:"sb",role:"button","aria-label":"Tirar um",onclick:e=>{e.stopPropagation();tiraSimples(n);}},"−"),el("b",{},String(q)),el("span",{class:"sb",role:"button","aria-label":"Pôr mais um",onclick:e=>{e.stopPropagation();addSimples(n);}},"+")):
         q?el("span",{class:"qt"},q+"×"):el("span",{class:"add","aria-hidden":"true"},"+"));
@@ -385,6 +387,8 @@ function abreLanche(n){
   pg.addEventListener("touchend",e=>{if(fx===null)return;const t=e.changedTouches[0],dx=t.clientX-fx,dy=t.clientY-fy;fx=null;if(dx>70&&dx>Math.abs(dy)*1.6)fechaFolha();},{passive:true});
 }
 /* bebidas em grupos: lata, 1 litro, água */
+/* fotos das bebidas (pasta public/bebidas) */
+const FOTO_BEB={"Coca-Cola Lata":"coca-lata","Coca Zero Lata":"coca-zero-lata","Sprite Lata":"sprite-lata","Sprite Zero Lata":"sprite-zero-lata","Água sem gás":"agua-sem-gas","Água com gás":"agua-com-gas","Coca-Cola 1L":"coca-1l","Coca Zero 1L":"coca-zero-1l","Suco 330ml":"suco-330","Suco 1 Litro":"suco-1l"};
 function agrupa(c,lista){
   if(c!=="Bebidas")return lista;
   const G=[["Refrigerante lata",/lata/i],["Refrigerante 1 litro",/1L$/i],["Água",/^Água/i],["Suco",/^Suco/i]],usados=new Set(),out=[];
