@@ -136,6 +136,7 @@ header button{border-radius:6px;font-weight:600}
 .mi .pc{font-size:10.5px;font-weight:700;color:var(--mut);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
 .item.mi.has{border-color:var(--ac);box-shadow:inset 0 0 0 2px var(--ac)}
 .item.mi.cf{padding-right:66px}.mi .fb{position:absolute;right:10px;bottom:8px;height:66px;width:48px;object-fit:contain;object-position:bottom;pointer-events:none}.item.mi.cf em{z-index:1}
+.mi .fb.gar{height:84px;width:63px;right:2px}@media (min-width:700px){.mi .fb{height:80px;width:56px}.mi .fb.gar{height:110px;width:83px;right:-4px}}
 .item.mi.tc{background:var(--ac);color:var(--onac);border-color:var(--ac)}
 .mi.tc .pv,.mi.tc .pc{color:var(--onac)}.mi.tc em{background:var(--acx)}
 .item.mi.tc.has{box-shadow:inset 0 0 0 3px var(--acx)}
@@ -539,7 +540,7 @@ function secHd(t,r,id){const a={class:"lbl sech"};if(id)a.id="sec-"+id;return el
 function secBlocks(k){
   const it=itemsOf(k);if(!it.length)return[];
   const card=([n,p])=>{const q=qtyOf(n),cb=COMBO[n],fb=FOTO_BEB[n];return el("button",{class:"item mi"+(q?" has":"")+(k==="Combos"?" tc":"")+(fb?" cf":""),onclick:()=>add(n,p)},
-    fb?el("img",{class:"fb",src:"bebidas/"+fb+".webp",alt:"",loading:"lazy",decoding:"async"}):"",q?el("em",{},String(q)):"",el("span",{class:"nmx"},n.replace(/^\+ /,"").replace(/^X-/,"X\u2011")),DESC[n]?el("span",{class:"de"},DESC[n]):"",
+    fb?el("img",{class:"fb"+(/lata/.test(fb)?"":" gar"),src:"bebidas/"+fb+".webp",alt:"",loading:"lazy",decoding:"async"}):"",q?el("em",{},String(q)):"",el("span",{class:"nmx"},n.replace(/^\+ /,"").replace(/^X-/,"X\u2011")),DESC[n]?el("span",{class:"de"},DESC[n]):"",
     el("span",{class:"pf"},el("span",{class:"pv"},brl(p)),cb?el("span",{class:"pc"},"Combo "+brl(cb)):""));};
   if(k==="Lanches"){const casa=it.filter(([n])=>!n.startsWith("X-")),x=it.filter(([n])=>n.startsWith("X-"));
     return[secHd("Os lanches da casa","Lanche · Combo",k),el("div",{class:"grid"},...casa.map(card)),...(x.length?[secHd("Clássicos","Todos com hambúrguer"),el("div",{class:"grid"},...x.map(card))]:[])];}
