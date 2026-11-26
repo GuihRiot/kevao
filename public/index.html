@@ -981,8 +981,7 @@ const live=orders.filter(o=>!["entregue","cancelado","nocaixa"].includes(o.statu
       el("button",{class:"btn",onclick:e=>{const b=e.target;if(moto){const ra=rotaAtiva();if(ra.length&&!libera.has(o.id)){libera.add(o.id);setTimeout(()=>{libera.delete(o.id);renderKitchen();},8000);renderKitchen();return;}}libera.delete(o.id);b.disabled=true;ordersRef.doc(o.id).update(moto?{status:nx,moto:true,saiuEm:Date.now()}:{status:nx}).catch(e=>failWarn(e,"Falha ao atualizar o pedido."));}},moto&&libera.has(o.id)?"Ele ainda está em rota. Liberar mesmo assim?":txt));
   };
   k.replaceChildren(panel,el("p",{class:"mut",style:"margin:0 0 6px"},fila.length+" na fila"+(prontos.length?" · "+prontos.length+" pronto(s)":"")+" · ",el("span",{class:"aovivo"},"ao vivo"),lastSync?" · "+new Date(lastSync).toLocaleTimeString("pt-BR"):""),
-    ...fila.map((o,i)=>card(o,i+1)),
-    prontos.length?el("div",{class:"secK"},"PRONTOS · ENTREGAR AO CAIXA"+(prontos.some(o=>o.tipo==="Delivery")?" / MOTOQUEIRO":"")):"",...prontos.map(o=>card(o,0)));
+    ...prontos.map(o=>card(o,0)),...fila.map((o,i)=>card(o,i+1)));
 }
 
 /* ---------- avisos nas abas ---------- */
