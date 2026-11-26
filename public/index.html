@@ -224,7 +224,8 @@ header button.ping .bdg svg{animation:sino 1.2s ease 3;transform-origin:50% 10%}
 
   <div class="card" id="pedidoCard">
     <h3>Pedido</h3>
-    <input id="end" placeholder="Endereço de entrega" hidden>
+    <input id="end" placeholder="Endereço de entrega (rua, número e bairro)" hidden>
+    <div id="kmAuto" hidden style="margin:-2px 0 6px"><button class="btn sec" id="kmBt" type="button" style="margin:0">Calcular km pelo endereço</button><div id="kmRes" class="mut" style="margin-top:4px;font-size:14px"></div></div>
     <div id="cart"></div>
     <input id="obsG" placeholder="Observação geral (talher, molhos extras…)">
     <div class="chips" id="pgs" style="margin-top:8px"></div>
@@ -304,6 +305,7 @@ header button.ping .bdg svg{animation:sino 1.2s ease 3;transform-origin:50% 10%}
 (function(){
   const SB_URL="https://rahgwjqdghchkkpydjrh.supabase.co";
   const SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhaGd3anFkZ2hjaGtrcHlkanJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5MjM3MzAsImV4cCI6MjEwOTQ5OTczMH0.Mqmjjah5Jf2G8-c338EOUSv7bcgdJH030xrAMuDszFI";
+  window.KV_SB={u:SB_URL,k:SB_KEY};
   const sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:"kevao-auth"}});
   window.__sb=sb;
   let perfil=null,nome="",resolveLogin;const logged=new Promise(r=>resolveLogin=r);
@@ -530,7 +532,7 @@ function drawCaixa(){
   {const A=act();if(!A.includes(cat))cat=A[0]||"Lanches";}
   $("chips").replaceChildren(...act().map(k=>el("button",{class:k===cat?"on":"",onclick:()=>goSec(k)},k)));
   $("pgs").replaceChildren(el("button",{class:!pago?"on":"",onclick:()=>{pago=false;pag="";drawCaixa();}},"Ainda não pagou"),el("button",{class:pago?"on":"",onclick:()=>{pago=true;drawCaixa();}},"Já pagou"));
-  $("pgm").hidden=!pago;$("pgm").replaceChildren(...(pago?["Crédito","Débito","Pix","Dinheiro"].map(t=>el("button",{class:"item"+(t===pag?" has":""),style:"min-height:54px",onclick:()=>{pag=t;drawCaixa();}},t)):[]));$("end").hidden=tipo!=="Delivery";$("taxaBox").hidden=tipo!=="Delivery";$("kmBox").hidden=tipo!=="Delivery";$("troco").hidden=!(pago&&pag==="Dinheiro");
+  $("pgm").hidden=!pago;$("pgm").replaceChildren(...(pago?["Crédito","Débito","Pix","Dinheiro"].map(t=>el("button",{class:"item"+(t===pag?" has":""),style:"min-height:54px",onclick:()=>{pag=t;drawCaixa();}},t)):[]));$("end").hidden=tipo!=="Delivery";$("taxaBox").hidden=tipo!=="Delivery";$("kmBox").hidden=tipo!=="Delivery";$("kmAuto").hidden=tipo!=="Delivery";$("troco").hidden=!(pago&&pag==="Dinheiro");
   $("grid").replaceChildren(...secBlocks(cat));
   pillUpdate();drawDisp();
 }
@@ -616,6 +618,16 @@ function taxaPorKm(km){const tf=(typeof lojaCfg!=="undefined"&&lojaCfg&&lojaCfg.
 $("km").oninput=()=>{const km=parseFloat(String($("km").value).replace(",","."));
   if(!(km>0)){$("kmInfo").textContent="calcula a taxa sozinho";return;}
   const t=taxaPorKm(km);$("taxa").value=t.toFixed(2).replace(".",",");$("kmInfo").textContent="→ "+brl(t)+" (dá para mudar na taxa)";renderCart();};
+$("kmBt").onclick=async()=>{const e=$("end").value.trim(),res=$("kmRes"),bt=$("kmBt");
+  if(e.length<5){res.textContent="Digite a rua com número e o bairro no endereço.";$("end").focus();return;}
+  bt.disabled=true;const t0=bt.textContent;bt.textContent="Calculando…";res.textContent="";
+  try{const S=window.KV_SB;const r=await fetch(S.u+"/functions/v1/taxa-entrega",{method:"POST",headers:{apikey:S.k,Authorization:"Bearer "+S.k,"Content-Type":"application/json"},body:JSON.stringify({endereco:e})});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||!(j.km>0)){res.textContent=({NAO_ACHOU:"Endereço não encontrado. Confira rua, número e bairro, ou digite os km à mão.",LIMITE:"Muitas consultas agora. Digite os km à mão.",SEM_CHAVE:"Cálculo automático indisponível. Digite os km à mão."})[j.erro]||"Não deu para calcular agora. Digite os km à mão.";}
+    else{const km=Math.round(j.km*10)/10;$("km").value=String(km).replace(".",",");$("km").oninput();res.textContent="Encontrado: "+(j.local||e)+(j.aproximado?" (aproximado, confira o número)":"")+" · "+String(km).replace(".",",")+" km";}
+  }catch(x){res.textContent="Sem conexão. Digite os km à mão.";}
+  bt.disabled=false;bt.textContent=t0;};
+$("end").addEventListener("input",()=>{$("kmRes").textContent="";});
 const BEBN=new Set(MENU["Bebidas"].map(([n])=>n));
 function soBebida(){return cart.length>0&&cart.every(i=>BEBN.has(i.n));}
 $("send").onclick=async()=>{
@@ -628,7 +640,7 @@ $("send").onclick=async()=>{
   try{
     const sb=soBebida();
     await ordersRef.add({num,soBebida:sb,cliente:$("cli").value.trim()||(sb?"Bebida avulsa":"Sem nome"),tipo,pago,pag,end:$("end").value.trim(),troco:$("troco").value.trim(),obs:$("obsG").value.trim(),itens,entrega:tipo==="Delivery"?taxa():0,total:total(),status:sb?"nocaixa":"novo",createdAt:Date.now()});
-    cart=[];tipo="Local";pago=false;pag="";cat="Lanches";$("cli").value="";$("obsG").value="";$("end").value="";$("troco").value="";$("taxa").value="";$("km").value="";$("kmInfo").textContent="calcula a taxa sozinho";renderCart();drawCaixa();
+    cart=[];tipo="Local";pago=false;pag="";cat="Lanches";$("cli").value="";$("obsG").value="";$("end").value="";$("troco").value="";$("taxa").value="";$("km").value="";$("kmRes").textContent="";$("kmInfo").textContent="calcula a taxa sozinho";renderCart();drawCaixa();
     showToast(sb?"Bebida #"+num+" registrada · está em Entregar ao cliente":"Pedido #"+num+" enviado para a cozinha");window.scrollTo({top:0,behavior:"smooth"});try{$("cli").focus({preventScroll:true});}catch(e){}
   }catch(e){failWarn(e,"Não foi possível enviar o pedido. Verifique a conexão e tente de novo.");b.disabled=false;}
 };
