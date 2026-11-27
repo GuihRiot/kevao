@@ -425,7 +425,7 @@ header button.ping .bdg svg{animation:sino 1.2s ease 3;transform-origin:50% 10%}
 <script>
 const MENU={
  "Lanches":[["X-Burguer",21.9],["X-Salada",26.9],["X-Frango",29.9],["X-Bacon",32.9],["Tropicália",29.9],["Kevão Burger",28.9],["Kevão Fit",32.9],["Kevão Bacon",34.9],["Kevão Acebolado",39.9],["Kevão Exagerado",45.9]],
- "Combos":[["Combo Casal Bacon",59.9],["Combo Casal Salada",49.9],["Combo Casal Misto",54.9],["Combo Família Bacon",114.9],["Combo Família Salada",101.9],["Combo Família Misto",111.9]],
+ "Combos":[["Combo Casal Bacon",63.9],["Combo Casal Salada",53.9],["Combo Casal Misto",58.9],["Combo Família Bacon",118.9],["Combo Família Salada",105.9],["Combo Família Misto",115.9]],
  "Porções":[["Batata Individual",9.9],["Batata",27.9],["Batata com Cheddar e Bacon",35.9]],
  "Bebidas":[["Coca-Cola Lata",7.59],["Coca Zero Lata",7.59],["Sprite Lata",7.59],["Sprite Zero Lata",7.59],["Coca-Cola 1L",10.79],["Coca Zero 1L",10.79],["Água sem gás",5],["Água com gás",5],["Suco 330ml",9],["Suco 1 Litro",17]]
 };/* terceiro valor 1 = só Delivery. Combos Família liberados para todos os tipos (agora com refrigerante 1L) */
@@ -440,7 +440,9 @@ const DEFAULT_OFF=["X-Burguer","X-Salada","X-Frango","X-Bacon","Combo Casal Baco
 let OFF=new Set(DEFAULT_OFF),cfgRef=null;
 const PERNIL={"Tropicália":1};
 const BAT={"Batata Individual":"Individual","Batata":"Normal","Batata com Cheddar e Bacon":"Cheddar e bacon"};
-const COMBO_ADD=12;/* combo = preço do lanche + R$ 12 (batata + Coca lata) */
+const COMBO_ADD=13;/* combo = preço do lanche + R$ 13 (batata + refrigerante lata à escolha) */
+const latDe=o=>((o||"").match(/^Lata: ([^,]+)/)||[])[1]||"";
+const semLata=o=>(o||"").replace(/^Lata: [^,]+(, )?/,"");
 const COMBO=Object.fromEntries(MENU["Lanches"].map(([n,p])=>[n,Math.round((p+COMBO_ADD)*100)/100]));
 const BASEP=Object.fromEntries(MENU["Lanches"].map(x=>[x[0],x[1]]));
 /* carnes especiais (150 g) x carnes clássicas (120 g, lanches X e combos Casal/Família) */
@@ -571,19 +573,21 @@ function comboBox(i,ix){
   const manual=!COMBO[i.n];
   if(manual&&!LAN.has(i.n))return "";
   const cb=el("input",{type:"checkbox",style:"width:24px;height:24px;margin:0;padding:0;flex:none"});cb.checked=!!i.combo;cb.onchange=()=>toggleCombo(ix);
-  const lab=el("label",{style:"display:flex;gap:10px;align-items:center;margin:2px 0 6px;font-weight:600"},cb,"Combo (batata + Coca lata) · "+(manual?"informar valor":brl(COMBO[i.n])));
+  const lab=el("label",{style:"display:flex;gap:10px;align-items:center;margin:2px 0 6px;font-weight:600"},cb,"Combo (batata + refri lata) · "+(manual?"informar valor":brl(COMBO[i.n])));
+  const lt=i.combo?el("div",{class:"chips",style:"margin:0 0 8px 34px;padding-bottom:2px","aria-label":"Refrigerante do combo"},...LATAS.map(t=>el("button",{type:"button",class:latDe(i.obs)===t?"on":"",onclick:()=>{const r=semLata(i.obs);i.obs="Lata: "+t+(r?", "+r:"");renderCart();drawCaixa();}},t))):"";
   if(manual&&i.combo){
     const v=el("input",{type:"number",inputmode:"decimal",step:"0.01",placeholder:"Valor do combo (R$)",style:"margin:0 0 8px 34px;width:190px"});
     v.value=i.p&&i.p!==BASEP[i.n]?i.p:"";
     v.onchange=()=>{const x=parseFloat(v.value);i.p=x>0?x:BASEP[i.n];renderCart();drawCaixa();};
-    return el("div",{},lab,v);
+    return el("div",{},lab,v,lt);
   }
-  return lab;
+  return lt?el("div",{},lab,lt):lab;
 }
 function toggleCombo(ix){
   const i=cart[ix],cp=COMBO[i.n]||BASEP[i.n];if(!cp)return;
-  if(!i.combo){if(i.q>1){i.q--;cart.splice(ix+1,0,{n:i.n,p:cp,q:1,obs:i.obs,combo:true});}else{i.combo=true;i.p=cp;}}
-  else{i.combo=false;i.p=BASEP[i.n];}
+  const comLata=o=>latDe(o)?o:"Lata: Coca-Cola"+(o?", "+o:"");
+  if(!i.combo){if(i.q>1){i.q--;cart.splice(ix+1,0,{n:i.n,p:cp,q:1,obs:comLata(i.obs),combo:true});}else{i.combo=true;i.p=cp;i.obs=comLata(i.obs);}}
+  else{i.combo=false;i.p=BASEP[i.n];i.obs=semLata(i.obs);}
   renderCart();drawCaixa();
 }
 function adicBox(i){
@@ -981,7 +985,7 @@ const live=orders.filter(o=>!["entregue","cancelado","nocaixa"].includes(o.statu
       el("div",{class:"top"},el("span",{},"#"+o.num+" · "+o.cliente),el("span",{class:"st "+o.status},label(o.status))),
       el("span",{class:"tipo"},tipoTxt(o.tipo)),o.comanda?el("span",{class:"tipo",style:"margin-left:6px;background:var(--ac);color:var(--onac)"},"COMANDA "+o.comanda):"",!isHoje(o)?el("span",{class:"tipo",style:"margin-left:6px;background:var(--wr);color:var(--onac)"},"DIA "+new Date(o.createdAt).toLocaleDateString("pt-BR")):"",
       el("div",{class:"mut",style:min>=20?"color:var(--wr);font-weight:800":""},(min>=20?"ATRASADO · ":"")+min+" min · "+new Date(o.createdAt).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})),
-      el("ul",{},o.itens.map(i=>/^\+ /.test(i.n)?el("li",{class:"adK"},"ADICIONAL: "+(i.q>1?i.q+"× ":"")+i.n.slice(2)+(/^p\/ /.test(i.obs||"")?" no "+i.obs.slice(3):""),!/^p\/ /.test(i.obs||"")&&i.obs?el("i",{},"OBS: "+i.obs):""):el("li",{},i.q+"× "+i.n+(i.combo?" + COMBO (batata + Coca lata)":""),i.obs?el("i",{},"OBS: "+i.obs):""))),
+      el("ul",{},o.itens.map(i=>/^\+ /.test(i.n)?el("li",{class:"adK"},"ADICIONAL: "+(i.q>1?i.q+"× ":"")+i.n.slice(2)+(/^p\/ /.test(i.obs||"")?" no "+i.obs.slice(3):""),!/^p\/ /.test(i.obs||"")&&i.obs?el("i",{},"OBS: "+i.obs):""):el("li",{},i.q+"× "+i.n+(i.combo?" + COMBO (batata + "+(latDe(i.obs)?latDe(i.obs)+" lata":"refri lata")+")":""),(i.combo?semLata(i.obs):i.obs)?el("i",{},"OBS: "+(i.combo?semLata(i.obs):i.obs)):""))),
       o.pago?el("div",{class:"mut"},"Pago · "+o.pag):(o.status==="pronto"?el("div",{class:"go"},"NÃO PAGO · COBRAR "+brl(o.total||0)):el("div",{class:"mut"},"Pagamento pendente"+(o.pagPref?" · vai pagar: "+o.pagPref+(o.troco?trocoTxt(o):""):""))),
       o.obs?el("div",{class:"go"},"OBS. GERAL: "+o.obs):"",
       o.comanda&&o.status==="pronto"?el("div",{class:"go",style:"font-size:18px"},"TOCAR A COMANDA "+o.comanda):"",

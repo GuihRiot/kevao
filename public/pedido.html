@@ -301,7 +301,7 @@ function drawMenu(){
       el("div",{class:"topRow"},...x.it.map(([n,v],i)=>el("button",{class:"topC",onclick:()=>{KT.ev("top_clique",{n,pos:i+1});abreLanche(n);}},
         el("span",{class:"rk"},(i+1)+"º"),el("b",{},n),el("div",{class:"ds"},DESC[n]||""),el("div",{class:"pr"},brl(v.p))))));
     return el("section",{id:"sec-"+x.id,class:"sec"},el("h2",{},x.tit),
-    x.id==="Lanches"?el("p",{class:"mut",style:"margin:-4px 0 10px;font-size:14px"},"Qualquer lanche vira combo: + "+brl(L.comboAdd)+" com batata e Coca lata."):"",
+    x.id==="Lanches"?el("p",{class:"mut",style:"margin:-4px 0 10px;font-size:14px"},"Qualquer lanche vira combo: + "+brl(L.comboAdd)+" com batata e refrigerante lata à escolha."):"",
     ...agrupa(c,x.it).map(y=>y.sg?el("div",{class:"sg"},el("span",{},y.sg),el("span",{},y.pr)):(([n,v])=>{const q=qtdDe(n);
       return el("button",{class:"it",onclick:()=>c==="Lanches"?abreLanche(n):/^Combo (Casal|Família)/.test(n)?abreCombo(n):addSimples(n)},
         FOTO_LAN[n]?el("img",{class:"fl",src:"lanches/"+FOTO_LAN[n]+".webp",alt:"",loading:"lazy",decoding:"async"}):"",
@@ -361,13 +361,16 @@ function abreLanche(n){
   const v=L.itens[n];let q=1,combo=false,ad=new Set(),obsCh=new Set(),obs="";
   const preco=()=>(v.p+(combo?L.comboAdd:0)+[...ad].reduce((s,a)=>s+L.adic[a],0))*q;
   const btn=el("button",{class:"btn add"}),qb=el("b",{},"1");
-  const upd=()=>{btn.textContent="Adicionar · "+brl(preco());qb.textContent=q;};
+  const upd=()=>{btn.textContent="Adicionar · "+brl(preco());qb.textContent=q;if(typeof boxL!=="undefined")boxL.hidden=!combo;};
   const escolha=(on,titulo,sub,preco,fn)=>{const b=el("button",{class:"esc"+(on?" on":""),type:"button",role:"radio","aria-checked":on?"true":"false",onclick:()=>fn(b)},el("span",{class:"rd"}),el("span",{class:"tx"},el("b",{},titulo),sub?el("small",{},sub):""),el("em",{},preco));return b;};
   const g1=el("div",{role:"radiogroup"});
   const marca=b=>{[...g1.children].forEach(x=>{const on=x===b;x.classList.toggle("on",on);x.setAttribute("aria-checked",on?"true":"false");});};
   g1.append(
     escolha(true,"Só o lanche","",brl(v.p),b=>{combo=false;marca(b);upd();}),
-    escolha(false,"Combo","Lanche + batata + Coca-Cola lata",brl(v.p+L.comboAdd),b=>{combo=true;marca(b);upd();}));
+    escolha(false,"Combo","Lanche + batata + refrigerante lata",brl(v.p+L.comboAdd),b=>{combo=true;marca(b);upd();}));
+  const LTS=[["Coca-Cola","Coca-Cola Lata"],["Coca Zero","Coca Zero Lata"],["Sprite","Sprite Lata"],["Sprite Zero","Sprite Zero Lata"]].filter(([,k])=>!L.itens[k]||disp(k)).map(([t])=>t);if(!LTS.length)LTS.push("Coca-Cola");let lata=LTS[0];
+  const gL=el("div",{role:"radiogroup","aria-label":"Refrigerante do combo"},...LTS.map(t=>{const b=el("button",{class:"esc"+(t===lata?" on":""),type:"button",role:"radio","aria-checked":t===lata?"true":"false",onclick:()=>{lata=t;[...gL.children].forEach(x=>{const on=x===b;x.classList.toggle("on",on);x.setAttribute("aria-checked",on?"true":"false");});}},el("span",{class:"rd"}),FOTO_BEB[{"Coca-Cola":"Coca-Cola Lata","Coca Zero":"Coca Zero Lata","Sprite":"Sprite Lata","Sprite Zero":"Sprite Zero Lata"}[t]]?el("img",{class:"fa",src:"bebidas/"+FOTO_BEB[{"Coca-Cola":"Coca-Cola Lata","Coca Zero":"Coca Zero Lata","Sprite":"Sprite Lata","Sprite Zero":"Sprite Zero Lata"}[t]]+".webp",alt:"",loading:"lazy",decoding:"async"}):"",el("span",{class:"tx"},el("b",{},t)),el("em",{},"incluso"));return b;}));
+  const boxL=el("div",{hidden:true},el("div",{class:"passo"},el("b",{},"Refrigerante do combo"),el("span",{class:"tag"},"Escolha 1")),gL);
   const adicional=([a,p])=>{const b=el("button",{class:"esc ck",type:"button",role:"checkbox","aria-checked":"false",onclick:()=>{const on=!ad.has(a);on?ad.add(a):ad.delete(a);b.classList.toggle("on",on);b.setAttribute("aria-checked",on?"true":"false");upd();}},el("span",{class:"rd"}),FOTO_AD[a]?el("img",{class:"fa",src:"adicionais/"+FOTO_AD[a]+".webp",alt:"",loading:"lazy",decoding:"async"}):"",el("span",{class:"tx"},el("b",{},a)),el("em",{},"+ "+brl(p)));return b;};
   const rapidos=["Sem cebola","Sem molho","Sem tomate","Sem alface"].map(t=>{const b=el("button",{class:"ob",type:"button",onclick:()=>{obsCh.has(t)?obsCh.delete(t):obsCh.add(t);b.classList.toggle("on",obsCh.has(t));}},t);return b;});
   const pg=el("div",{class:"pg",role:"dialog","aria-label":n},
@@ -375,14 +378,14 @@ function abreLanche(n){
     el("div",{class:"pgIn"},
       FOTO_LAN[n]?el("img",{class:"flm",src:"lanches/"+FOTO_LAN[n]+".webp",alt:""}):"",el("h1",{},n),DESC[n]?el("p",{class:"mut",style:"margin:0 0 6px"},DESC[n]):"",NOCUT.has(n)?el("div",{class:"nocut"},"Não cortamos ao meio."):"",
       el("div",{class:"pr1"},brl(v.p)),
-      el("div",{class:"passo"},el("b",{},"1. Como você quer?"),el("span",{class:"tag"},"Escolha 1")),g1,
+      el("div",{class:"passo"},el("b",{},"1. Como você quer?"),el("span",{class:"tag"},"Escolha 1")),g1,boxL,
       adics().length?el("div",{class:"passo"},el("b",{},"2. Quer adicionais?"),el("span",{class:"tag op"},"Opcional")):"",
       ...adics().map(adicional),
       el("div",{class:"passo"},el("b",{},(adics().length?"3":"2")+". Alguma observação?"),el("span",{class:"tag op"},"Opcional")),
       el("div",{class:"obs"},...rapidos),
       el("input",{type:"text",maxlength:"100",placeholder:"Outra observação (ex.: ponto da carne)",oninput:e=>{obs=e.target.value;}})),
     el("div",{class:"pgBar"},el("div",{class:"qty"},el("button",{"aria-label":"Menos",onclick:()=>{if(q>1){q--;upd();}}},"−"),qb,el("button",{"aria-label":"Mais",onclick:()=>{if(q<20){q++;upd();}}},"+")),btn));
-  btn.onclick=()=>{const o=[...obsCh,obs.trim()].filter(Boolean).join(", ");cart.push({n,q,combo,adic:[...ad],obs:o});pos=true;KT.ev("add",{n,combo});salvaCart();fechaFolha();toast("✓ "+q+"× "+n+(combo?" (combo)":"")+" no pedido");drawMenu();};
+  btn.onclick=()=>{const o=[combo?"Lata: "+lata:"",...obsCh,obs.trim()].filter(Boolean).join(", ");cart.push({n,q,combo,adic:[...ad],obs:o});pos=true;KT.ev("add",{n,combo});salvaCart();fechaFolha();toast("✓ "+q+"× "+n+(combo?" (combo)":"")+" no pedido");drawMenu();};
   upd();document.body.append(pg);folha=pg;camada("folha");pg.addEventListener("kvFechou",()=>{if(!pos&&!pg.dataset.f){pg.dataset.f=1;KT.ev("fechou_lanche",{n});}});
   let fx=null,fy=0;pg.addEventListener("touchstart",e=>{if(e.touches.length!==1||e.target.closest("input")){fx=null;return;}fx=e.touches[0].clientX;fy=e.touches[0].clientY;},{passive:true});
   pg.addEventListener("touchend",e=>{if(fx===null)return;const t=e.changedTouches[0],dx=t.clientX-fx,dy=t.clientY-fy;fx=null;if(dx>70&&dx>Math.abs(dy)*1.6)fechaFolha();},{passive:true});
@@ -505,7 +508,7 @@ function sugestao(){
   const temBeb=cat("Bebidas")||cart.some(i=>i.combo)||cart.some(i=>/^Combo /.test(i.n));
   const nm=CLUBE?CLUBE.nome:"";
   const semCombo=lan.find(i=>!i.combo);
-  if(semCombo&&nL===1&&!cat("Porções"))return {k:"combo",t:"Que tal virar combo?",d:"Por + "+brl(L.comboAdd)+" vem batata e Coca lata. Lanche sem batata é só metade da festa.",preco:L.comboAdd,fazer:()=>{if(semCombo.q>1){semCombo.q--;cart.push(Object.assign({},semCombo,{q:1,combo:true}));}else semCombo.combo=true;}};
+  if(semCombo&&nL===1&&!cat("Porções"))return {k:"combo",t:"Que tal virar combo?",d:"Por + "+brl(L.comboAdd)+" vem batata e refri lata à sua escolha. Lanche sem batata é só metade da festa.",preco:L.comboAdd,fazer:()=>{const ob=["Lata: Coca-Cola",semCombo.obs].filter(Boolean).join(", ");if(semCombo.q>1){semCombo.q--;cart.push(Object.assign({},semCombo,{q:1,combo:true,obs:ob}));}else{semCombo.combo=true;semCombo.obs=ob;}}};
   if(CLUBE&&CLUBE.adic&&L.adic&&L.adic.Bacon&&!(L.off||[]).includes("+ Bacon")&&lan.length&&!lan.some(i=>(i.adic||[]).length)){const alvo=lan[0];
     return {k:"bacon",t:"Bacon extra"+(nm?", "+nm:"")+"?",d:"Do jeito que você gosta: + "+brl(L.adic.Bacon)+" no "+alvo.n+".",preco:L.adic.Bacon*(alvo.q||1),fazer:()=>{alvo.adic=[...(alvo.adic||[]),"Bacon"];}};}
   if(!temBeb&&nL>=2&&disp("Coca-Cola 1L"))return {k:"coca1l",t:"Vai dividir?",d:"A Coca 1 litro sai mais em conta que duas latas: "+brl(L.itens["Coca-Cola 1L"].p)+".",preco:L.itens["Coca-Cola 1L"].p,fazer:()=>addItem("Coca-Cola 1L")};
