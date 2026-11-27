@@ -424,7 +424,7 @@ header button.ping .bdg svg{animation:sino 1.2s ease 3;transform-origin:50% 10%}
 
 <script>
 const MENU={
- "Lanches":[["X-Burguer",19.9],["X-Salada",24.9],["X-Frango",26.9],["X-Bacon",29.9],["Tropicália",29.9],["Kevão Burger",28.9],["Kevão Fit",32.9],["Kevão Bacon",34.9],["Kevão Acebolado",39.9],["Kevão Exagerado",45.9]],
+ "Lanches":[["X-Burguer",21.9],["X-Salada",26.9],["X-Frango",29.9],["X-Bacon",32.9],["Tropicália",29.9],["Kevão Burger",28.9],["Kevão Fit",32.9],["Kevão Bacon",34.9],["Kevão Acebolado",39.9],["Kevão Exagerado",45.9]],
  "Combos":[["Combo Casal Bacon",59.9],["Combo Casal Salada",49.9],["Combo Casal Misto",54.9],["Combo Família Bacon",114.9],["Combo Família Salada",101.9],["Combo Família Misto",111.9]],
  "Porções":[["Batata Individual",9.9],["Batata",27.9],["Batata com Cheddar e Bacon",35.9]],
  "Bebidas":[["Coca-Cola Lata",7.59],["Coca Zero Lata",7.59],["Sprite Lata",7.59],["Sprite Zero Lata",7.59],["Coca-Cola 1L",10.79],["Coca Zero 1L",10.79],["Água sem gás",5],["Água com gás",5],["Suco 330ml",9],["Suco 1 Litro",17]]
@@ -538,7 +538,7 @@ function drawCaixa(){
 }
 
 /* ---------- grade no estilo do cardápio impresso ---------- */
-const DESC={"Tropicália":"Pernil desfiado, catupiry, queijo, batata palha e abacaxi","Kevão Burger":"Brioche, carne 150 g, cheddar, cebola roxa e molho especial","Kevão Fit":"Brioche, carne 150 g, cheddar, alface, tomate, cebola roxa e molho","Kevão Bacon":"Brioche, carne 150 g, cheddar, bacon, barbecue, cebola roxa e molho","Kevão Acebolado":"Brioche, carne 150 g, cheddar, cebola caramelizada, bacon e barbecue","Kevão Exagerado":"Brioche, 2 carnes 150 g, cheddar, bacon em exagero, barbecue e molho","X-Burguer":"Hambúrguer 120 g, salsicha, presunto, queijo e molhos","X-Salada":"Hambúrguer 120 g, alface, tomate, salsicha, presunto, queijo","X-Frango":"Hambúrguer 120 g, frango grelhado, salada, salsicha, presunto, queijo","X-Calabresa":"Hambúrguer 120 g, calabresa, salsicha, presunto, queijo e molhos","X-Bacon":"Hambúrguer 120 g, bacon, salsicha, presunto, queijo e molhos"};
+const DESC={"Tropicália":"Pernil desfiado, catupiry, queijo, batata palha e abacaxi","Kevão Burger":"Brioche, carne 150 g, cheddar, cebola roxa e molho especial","Kevão Fit":"Brioche, carne 150 g, cheddar, alface, tomate, cebola roxa e molho","Kevão Bacon":"Brioche, carne 150 g, cheddar, bacon, barbecue, cebola roxa e molho","Kevão Acebolado":"Brioche, carne 150 g, cheddar, cebola caramelizada, bacon e barbecue","Kevão Exagerado":"Brioche, 2 carnes 150 g, cheddar, bacon em exagero, barbecue e molho","X-Burguer":"Hambúrguer 120 g, salsicha, presunto, queijo e molhos","X-Salada":"Hambúrguer 120 g, alface, tomate, salsicha, presunto, queijo","X-Frango":"Hambúrguer 120 g, frango grelhado, salada, salsicha, presunto, queijo","X-Calabresa":"Hambúrguer 120 g, calabresa, salsicha, presunto, queijo e molhos","X-Bacon":"Hambúrguer 120 g, bacon, alface, tomate, salsicha, presunto, queijo e molhos"};
 const NOCUT=new Set(["Tropicália","Kevão Exagerado"]);
 function secHd(t,r,id){const a={class:"lbl sech"};if(id)a.id="sec-"+id;return el("div",a,el("span",{},t),el("span",{},r||""));}
 function secBlocks(k){
