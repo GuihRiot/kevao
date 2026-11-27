@@ -424,12 +424,12 @@ header button.ping .bdg svg{animation:sino 1.2s ease 3;transform-origin:50% 10%}
 
 <script>
 const MENU={
- "Lanches":[["X-Burguer",21.9],["X-Salada",26.9],["X-Frango",29.9],["X-Bacon",32.9],["Tropicália",29.9],["Kevão Burger",28.9],["Kevão Fit",32.9],["Kevão Bacon",34.9],["Kevão Acebolado",39.9],["Kevão Exagerado",45.9]],
+ "Lanches":[["X-Burguer",21.9],["X-Salada",26.9],["X-Frango",29.9],["X-Bacon",32.9],["Tropicália",29.9],["Kevão Burger",28.9],["Kevão Fit-Salad",32.9],["Kevão Bacon",34.9],["Kevão Acebolado",39.9],["Kevão Exagerado",45.9]],
  "Combos":[["Combo Casal Bacon",63.9],["Combo Casal Salada",53.9],["Combo Casal Misto",58.9],["Combo Família Bacon",118.9],["Combo Família Salada",105.9],["Combo Família Misto",115.9]],
  "Porções":[["Batata Individual",9.9],["Batata",27.9],["Batata com Cheddar e Bacon",35.9]],
  "Bebidas":[["Coca-Cola Lata",7.59],["Coca Zero Lata",7.59],["Sprite Lata",7.59],["Sprite Zero Lata",7.59],["Coca-Cola 1L",10.79],["Coca Zero 1L",10.79],["Água sem gás",5],["Água com gás",5],["Suco 330ml",9],["Suco 1 Litro",17]]
 };/* terceiro valor 1 = só Delivery. Combos Família liberados para todos os tipos (agora com refrigerante 1L) */
-const RENOME={"Burguer": "Kevão Burger", "Fit": "Kevão Fit", "Bacon": "Kevão Bacon", "Acebolado": "Kevão Acebolado", "Exagerado": "Kevão Exagerado"};/* nomes antigos -> novos (pedidos já gravados) */
+const RENOME={"Burguer": "Kevão Burger", "Fit": "Kevão Fit-Salad", "Bacon": "Kevão Bacon", "Acebolado": "Kevão Acebolado", "Exagerado": "Kevão Exagerado"};/* nomes antigos -> novos (pedidos já gravados) */
 const DEL=new Set(Object.values(MENU).flat().filter(x=>x[2]).map(x=>x[0]));
 const brl=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 const $=id=>document.getElementById(id);
@@ -446,7 +446,7 @@ const semLata=o=>(o||"").replace(/^Lata: [^,]+(, )?/,"");
 const COMBO=Object.fromEntries(MENU["Lanches"].map(([n,p])=>[n,Math.round((p+COMBO_ADD)*100)/100]));
 const BASEP=Object.fromEntries(MENU["Lanches"].map(x=>[x[0],x[1]]));
 /* carnes especiais (150 g) x carnes clássicas (120 g, lanches X e combos Casal/Família) */
-const CARNES_ESP={"Kevão Burger":1,"Kevão Fit":1,"Kevão Bacon":1,"Kevão Acebolado":1,"Kevão Exagerado":2,"+ Carne":1};
+const CARNES_ESP={"Kevão Burger":1,"Kevão Fit-Salad":1,"Kevão Bacon":1,"Kevão Acebolado":1,"Kevão Exagerado":2,"+ Carne":1};
 const CARNES_CLA={"X-Burguer":1,"X-Salada":1,"X-Frango":1,"X-Calabresa":1,"X-Bacon":1,"Combo Casal Bacon":2,"Combo Casal Salada":2,"Combo Casal Misto":2,"Combo Família Bacon":4,"Combo Família Salada":4,"Combo Família Misto":4};
 const CARNES={...CARNES_ESP,...CARNES_CLA};
 const ADIC=[["Carne",9.9],["Cheddar",4],["Bacon",6],["Barbecue",4],["Ovo",3],["Alface e Tomate",5],["Molho Verde",1.5],["Salsicha",3]];
@@ -481,7 +481,7 @@ addEventListener("hashchange",()=>{const h=location.hash.slice(1);setView(["cozi
 function chips(box,cats,redraw){box.replaceChildren(...cats.map(k=>el("button",{class:k===cat?"on":"",onclick:()=>{cat=k;redraw();}},k)));}
 /* fotos das bebidas (pasta public/bebidas) */
 const FOTO_AD={"Carne":"carne","Cheddar":"cheddar","Bacon":"bacon","Barbecue":"barbecue","Ovo":"ovo","Alface e Tomate":"alface-tomate","Molho Verde":"molho-verde","Salsicha":"salsicha"};
-const FOTO_LAN={"Kevão Acebolado":"kevao-acebolado","Kevão Exagerado":"kevao-exagerado","Kevão Fit":"kevao-fit","Kevão Bacon":"kevao-bacon","Kevão Burger":"kevao-burger","Tropicália":"tropicalia","X-Bacon":"x-bacon","X-Burguer":"x-burguer","X-Frango":"x-frango","X-Salada":"x-salada"};
+const FOTO_LAN={"Kevão Acebolado":"kevao-acebolado","Kevão Exagerado":"kevao-exagerado","Kevão Fit-Salad":"kevao-fit","Kevão Bacon":"kevao-bacon","Kevão Burger":"kevao-burger","Tropicália":"tropicalia","X-Bacon":"x-bacon","X-Burguer":"x-burguer","X-Frango":"x-frango","X-Salada":"x-salada"};
 const FOTO_BEB={"Coca-Cola Lata":"coca-lata","Coca Zero Lata":"coca-zero-lata","Sprite Lata":"sprite-lata","Sprite Zero Lata":"sprite-zero-lata","Água sem gás":"agua-sem-gas","Água com gás":"agua-com-gas","Coca-Cola 1L":"coca-1l","Coca Zero 1L":"coca-zero-1l","Suco 330ml":"suco-330","Suco 1 Litro":"suco-1l","Batata":"batata","Batata com Cheddar e Bacon":"batata-cheddar-bacon","Batata Individual":"batata"};
 function grid(box,onTap){box.replaceChildren(...list(cat).map(([n,p])=>{const q=qtyOf(n);return el("button",{class:"item"+(q?" has":""),onclick:()=>onTap(n,p)},n,q?el("em",{},String(q)):"",el("small",{},p==null?"valor a confirmar":brl(p)));}));}
 
@@ -540,7 +540,7 @@ function drawCaixa(){
 }
 
 /* ---------- grade no estilo do cardápio impresso ---------- */
-const DESC={"Tropicália":"Pernil desfiado, catupiry, queijo, batata palha e abacaxi","Kevão Burger":"Brioche, carne 150 g, cheddar, cebola roxa e molho especial","Kevão Fit":"Brioche, carne 150 g, cheddar, alface, tomate, cebola roxa e molho","Kevão Bacon":"Brioche, carne 150 g, cheddar, bacon, barbecue, cebola roxa e molho","Kevão Acebolado":"Brioche, carne 150 g, cheddar, cebola caramelizada, bacon e barbecue","Kevão Exagerado":"Brioche, 2 carnes 150 g, cheddar, bacon em exagero, barbecue e molho","X-Burguer":"Hambúrguer 120 g, salsicha, presunto, queijo e molhos","X-Salada":"Hambúrguer 120 g, alface, tomate, salsicha, presunto, queijo","X-Frango":"Hambúrguer 120 g, frango grelhado, salada, salsicha, presunto, queijo","X-Calabresa":"Hambúrguer 120 g, calabresa, salsicha, presunto, queijo e molhos","X-Bacon":"Hambúrguer 120 g, bacon, alface, tomate, salsicha, presunto, queijo e molhos"};
+const DESC={"Tropicália":"Pernil desfiado, catupiry, queijo, batata palha e abacaxi","Kevão Burger":"Brioche, carne 150 g, cheddar, cebola roxa e molho especial","Kevão Fit-Salad":"Brioche, carne 150 g, cheddar, alface, tomate, cebola roxa e molho","Kevão Bacon":"Brioche, carne 150 g, cheddar, bacon, barbecue, cebola roxa e molho","Kevão Acebolado":"Brioche, carne 150 g, cheddar, cebola caramelizada, bacon e barbecue","Kevão Exagerado":"Brioche, 2 carnes 150 g, cheddar, bacon em exagero, barbecue e molho","X-Burguer":"Hambúrguer 120 g, salsicha, presunto, queijo e molhos","X-Salada":"Hambúrguer 120 g, alface, tomate, salsicha, presunto, queijo","X-Frango":"Hambúrguer 120 g, frango grelhado, salada, salsicha, presunto, queijo","X-Calabresa":"Hambúrguer 120 g, calabresa, salsicha, presunto, queijo e molhos","X-Bacon":"Hambúrguer 120 g, bacon, alface, tomate, salsicha, presunto, queijo e molhos"};
 const NOCUT=new Set(["Tropicália","Kevão Exagerado"]);
 function secHd(t,r,id){const a={class:"lbl sech"};if(id)a.id="sec-"+id;return el("div",a,el("span",{},t),el("span",{},r||""));}
 function secBlocks(k){

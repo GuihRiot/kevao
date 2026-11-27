@@ -208,7 +208,7 @@ const CLASS="Pão, hambúrguer artesanal de 120 g na brasa, salsicha Perdigão, 
 const DESC={
  "Tropicália":"Pão, pernil desfiado, catupiry, queijo, batata palha e abacaxi.",
  "Kevão Burger":"Pão brioche, carne de 150 g, queijo cheddar, cebola roxa e molho especial.",
- "Kevão Fit":"Pão brioche, carne de 150 g, cheddar, alface americana, tomate, cebola roxa e molho especial.",
+ "Kevão Fit-Salad":"Pão brioche, carne de 150 g, cheddar, alface americana, tomate, cebola roxa e molho especial.",
  "Kevão Bacon":"Pão brioche, carne de 150 g, cheddar, bacon, barbecue, cebola roxa e molho especial.",
  "Kevão Acebolado":"Pão brioche, carne de 150 g, cheddar, cebola caramelizada, bacon e barbecue.",
  "Kevão Exagerado":"Pão brioche, 2 carnes de 150 g, cheddar, bacon em exagero, barbecue, cebola roxa e molho especial.",
@@ -216,7 +216,7 @@ const DESC={
  "Combo Casal Bacon":"Para dois. Vem com 2 latas: você escolhe Coca ou Sprite, normal ou zero.","Combo Casal Salada":"Para dois. Vem com 2 latas: você escolhe Coca ou Sprite, normal ou zero.","Combo Casal Misto":"Para dois. Vem com 2 latas: você escolhe Coca ou Sprite, normal ou zero.",
  "Combo Família Bacon":"Vem com 1 Coca de 1 litro: normal ou zero.","Combo Família Salada":"Vem com 1 Coca de 1 litro: normal ou zero.","Combo Família Misto":"Vem com 1 Coca de 1 litro: normal ou zero."
 };
-const ORDEM=["Tropicália","Kevão Burger","Kevão Fit","Kevão Bacon","Kevão Acebolado","Kevão Exagerado","X-Burguer","X-Salada","X-Frango","X-Calabresa","X-Bacon","Combo Casal Bacon","Combo Casal Salada","Combo Casal Misto","Combo Família Bacon","Combo Família Salada","Combo Família Misto","Batata Individual","Batata","Batata com Cheddar e Bacon","Coca-Cola Lata","Coca Zero Lata","Sprite Lata","Sprite Zero Lata","Coca-Cola 1L","Coca Zero 1L","Água sem gás","Água com gás","Suco 330ml","Suco 1 Litro"];
+const ORDEM=["Tropicália","Kevão Burger","Kevão Fit-Salad","Kevão Bacon","Kevão Acebolado","Kevão Exagerado","X-Burguer","X-Salada","X-Frango","X-Calabresa","X-Bacon","Combo Casal Bacon","Combo Casal Salada","Combo Casal Misto","Combo Família Bacon","Combo Família Salada","Combo Família Misto","Batata Individual","Batata","Batata com Cheddar e Bacon","Coca-Cola Lata","Coca Zero Lata","Sprite Lata","Sprite Zero Lata","Coca-Cola 1L","Coca Zero 1L","Água sem gás","Água com gás","Suco 330ml","Suco 1 Litro"];
 const pos=n=>{const i=ORDEM.indexOf(n);return i<0?999:i;};
 const NOCUT=new Set(["Tropicália","Kevão Exagerado"]);
 const CATS=["Lanches","Combos","Porções","Bebidas"];
@@ -393,7 +393,7 @@ function abreLanche(n){
 /* bebidas em grupos: lata, 1 litro, água */
 /* fotos das bebidas (pasta public/bebidas) */
 const FOTO_AD={"Carne":"carne","Cheddar":"cheddar","Bacon":"bacon","Barbecue":"barbecue","Ovo":"ovo","Alface e Tomate":"alface-tomate","Molho Verde":"molho-verde","Salsicha":"salsicha"};
-const FOTO_LAN={"Kevão Acebolado":"kevao-acebolado","Kevão Exagerado":"kevao-exagerado","Kevão Fit":"kevao-fit","Kevão Bacon":"kevao-bacon","Kevão Burger":"kevao-burger","Tropicália":"tropicalia","X-Bacon":"x-bacon","X-Burguer":"x-burguer","X-Frango":"x-frango","X-Salada":"x-salada"};
+const FOTO_LAN={"Kevão Acebolado":"kevao-acebolado","Kevão Exagerado":"kevao-exagerado","Kevão Fit-Salad":"kevao-fit","Kevão Bacon":"kevao-bacon","Kevão Burger":"kevao-burger","Tropicália":"tropicalia","X-Bacon":"x-bacon","X-Burguer":"x-burguer","X-Frango":"x-frango","X-Salada":"x-salada"};
 const FOTO_BEB={"Coca-Cola Lata":"coca-lata","Coca Zero Lata":"coca-zero-lata","Sprite Lata":"sprite-lata","Sprite Zero Lata":"sprite-zero-lata","Água sem gás":"agua-sem-gas","Água com gás":"agua-com-gas","Coca-Cola 1L":"coca-1l","Coca Zero 1L":"coca-zero-1l","Suco 330ml":"suco-330","Suco 1 Litro":"suco-1l","Batata":"batata","Batata com Cheddar e Bacon":"batata-cheddar-bacon","Batata Individual":"batata"};
 function agrupa(c,lista){
   if(c!=="Bebidas")return lista;
